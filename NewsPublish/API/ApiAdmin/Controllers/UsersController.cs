@@ -25,8 +25,8 @@ namespace NewsPublish.API.ApiAdmin.Controllers
     /// 用户信息（不包含账号）CURD
     /// 过滤器：管理员、授权用户
     /// </summary>
-    // [ServiceFilter(typeof(AutheFilter))]
-    // [ServiceFilter(typeof(AdminFilter))]
+    [ServiceFilter(typeof(AutheFilter))]
+    [ServiceFilter(typeof(AdminFilter))]
     [ApiController]
     [Route("api/users")]
     public class UsersController : ControllerBase
