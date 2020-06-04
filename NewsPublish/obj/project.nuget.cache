@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bcjCkJiMriGqiUjCApDNVDmE6Pp/Lk425NFZLzeFlR2pCFNW96sdqVRZbFU2oknZiHCZw2LP2PV8eLco4YN5GQ==",
+  "dgSpecHash": "XNRhECnpkUFZoFmyR6YURRBTEIKdqN/2ojvWzxnOn8QP540TOaTP5Cxzt3Tm4HtORfquoMH0g+rM1EfT3rXa8A==",
   "success": true,
-  "projectFilePath": "/Users/green/RiderProjects/NewsPublish/NewsPublish/NewsPublish.csproj",
+  "projectFilePath": "/Users/green/RiderProjects/NewsPublish2/NewsPublish/NewsPublish.csproj",
   "expectedPackageFiles": [
     "/Users/green/.nuget/packages/automapper/9.0.0/automapper.9.0.0.nupkg.sha512",
     "/Users/green/.nuget/packages/automapper.extensions.microsoft.dependencyinjection/7.0.0/automapper.extensions.microsoft.dependencyinjection.7.0.0.nupkg.sha512",

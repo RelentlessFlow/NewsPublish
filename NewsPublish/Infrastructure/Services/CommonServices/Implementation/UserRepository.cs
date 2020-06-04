@@ -220,7 +220,7 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
         public async Task<Guid> GetUserIdByAccount(string account)
         {
             var userAuthe = await _context.UserAuthes.FirstOrDefaultAsync(x => x.Account == account);
-            return userAuthe.Id;
+            return userAuthe.UserId;
         }
     }
 }

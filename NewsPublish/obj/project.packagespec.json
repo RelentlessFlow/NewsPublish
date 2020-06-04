@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "/Users/green/RiderProjects/NewsPublish/NewsPublish/NewsPublish.csproj",
+    "projectUniqueName": "/Users/green/RiderProjects/NewsPublish2/NewsPublish/NewsPublish.csproj",
     "projectName": "NewsPublish",
-    "projectPath": "/Users/green/RiderProjects/NewsPublish/NewsPublish/NewsPublish.csproj",
-    "outputPath": "/Users/green/RiderProjects/NewsPublish/NewsPublish/obj/",
+    "projectPath": "/Users/green/RiderProjects/NewsPublish2/NewsPublish/NewsPublish.csproj",
+    "outputPath": "/Users/green/RiderProjects/NewsPublish2/NewsPublish/obj/",
     "projectStyle": "PackageReference",
     "fallbackFolders": [
       "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
