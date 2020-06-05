@@ -50,6 +50,7 @@ namespace NewsPublish
                     });
                 });
             
+            
             // 配置跨域
             services.AddCors(options =>
             {
@@ -57,9 +58,9 @@ namespace NewsPublish
 
                     builder => builder.AllowAnyOrigin()
                         .WithMethods("GET", "POST", "HEAD", "PUT", "DELETE", "OPTIONS")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    
+                        .AllowAnyMethod().AllowAnyHeader()
+                        .WithExposedHeaders("X-Pagination")
+
                     // .AllowCredentials()
 
                 );
@@ -111,6 +112,7 @@ namespace NewsPublish
             services.AddScoped<IUserRepositoryExtendAdmin, UserRepositoryExtendAdmin>();
 
 
+            // 权限校验
             // 权限校验
             services.AddSingleton<ITokenList, TokenList>();
             
