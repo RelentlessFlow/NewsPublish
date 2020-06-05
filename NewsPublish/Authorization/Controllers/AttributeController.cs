@@ -79,7 +79,7 @@ namespace NewsPublish.Authorization.Controllers
         /// 用户登出，删除Token
         /// </summary>
         /// <returns></returns>
-        [ServiceFilter(typeof(UserFilter))]
+        [ServiceFilter(typeof(AutheFilter))]
         [HttpGet]
         [Route("logout")]
         public ActionResult<bool> UserLogout()
