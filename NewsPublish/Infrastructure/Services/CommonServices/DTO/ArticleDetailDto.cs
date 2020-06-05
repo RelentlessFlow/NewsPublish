@@ -28,5 +28,6 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.DTO
         public DateTime CreateTime { get; set; }
         public PagedList<CommentListDto> Comments { get; set; }
         public int CommentsCount { get; set; }
+        public int Star { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.DTO
         public DateTime CreateTime { get; set; }
         public Guid ArticleId { get; set; }
         public string ArticleTitle { get; set; }
+        public byte StarCount { get; set; }
         
     }
 }

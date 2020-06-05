@@ -122,6 +122,31 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
             return await _context.Replies.FirstAsync(x => x.Id == replyId);
         }
 
+        public Task<Star> GetCommentStar(Guid commentId)
+        {
+            MyTools.ArgumentDispose(commentId);
+            return _context.Stars.FirstOrDefaultAsync(x => x.Type == StarType.评论 && x.StartId == commentId);
+        }
+
+        public async void AddCommentStar(Guid commentId)
+        {
+            MyTools.ArgumentDispose(commentId);
+            var star = await _context.Stars.FirstOrDefaultAsync(x => x.Type == StarType.评论 && x.StartId == commentId);
+            if (star != null)
+            {
+                star.Count += 1;
+            }
+            else
+            {
+                _context.Stars.Add(new Star
+                {
+                    Type = StarType.评论,
+                    Count = 1,
+                    StartId = commentId
+                });
+            }
+        }
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() >= 0;

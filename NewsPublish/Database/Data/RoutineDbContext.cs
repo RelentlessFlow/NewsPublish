@@ -28,6 +28,8 @@ namespace NewsPublish.Database.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Reply> Replies { get; set; }
+        // 点赞
+        public DbSet<Star> Stars { get; set; }
 
         // 多对多
         public DbSet<Tag> Tags { get; set; }
@@ -126,7 +128,12 @@ namespace NewsPublish.Database.Data
                 .Property(x => x.Name).IsRequired().HasMaxLength(20);
             modelBuilder.Entity<Tag>()
                 .HasIndex(x => x.Name).IsUnique();
-
+            modelBuilder.Entity<Star>()
+                .Property(x => x.Type).IsRequired();
+            modelBuilder.Entity<Star>()
+                .Property(x => x.Count).IsRequired();
+            modelBuilder.Entity<Star>()
+                .Property(x => x.StartId).IsRequired();
 
             // 一个分类中包含很多文章
             modelBuilder.Entity<Article>()
@@ -158,7 +165,7 @@ namespace NewsPublish.Database.Data
                 .WithMany(x => x.ArticleTags)
                 .HasForeignKey(x => x.TagId);
 
-
+        
             // Web站点有关的实体
             modelBuilder.Entity<Banner>()
                 .Property(x => x.Picture).IsRequired();

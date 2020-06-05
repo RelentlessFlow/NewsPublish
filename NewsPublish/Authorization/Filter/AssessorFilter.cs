@@ -35,12 +35,21 @@ namespace NewsPublish.Authorization.Filter
         {
             var headerToken = context.HttpContext.Request.Headers["Authorization"];
             UserTokenWithRight userToken = _list.GetToken(headerToken);
-            var contains = userToken.RightName.Contains(_nameOptions.Value.AssessorName);
-            if (!contains)
+            if (userToken == null)
             {
                 var content = new UnauthorizedObjectResult("您的访问未经授权");
                 context.Result = content;
             }
+            else
+            {
+                var contains = userToken.RightName.Contains(_nameOptions.Value.AssessorName);
+                if (!contains)
+                {
+                    var content = new UnauthorizedObjectResult("您的访问未经授权");
+                    context.Result = content;
+                }
+            }
+           
         }
     }
 }

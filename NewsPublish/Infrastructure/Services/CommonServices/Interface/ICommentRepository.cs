@@ -29,6 +29,8 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Interface
         void DeleteReply(Reply reply);
         Task<IEnumerable<Reply>> GetRepliesByComment(Guid commentId);
         Task<Reply> GetReply(Guid replyId);
+        Task<Star> GetCommentStar(Guid commentId);
+        void AddCommentStar(Guid commentId);
         Task<bool> SaveAsync();
     }
 }

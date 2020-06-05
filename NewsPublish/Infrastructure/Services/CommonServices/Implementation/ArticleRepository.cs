@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NewsPublish.Database.Data;
 using NewsPublish.Database.Entities.ArticleEntities;
 using NewsPublish.Infrastructure.DtoParameters;
 using NewsPublish.Infrastructure.Helpers;
-using NewsPublish.Infrastructure.Services.AdminServices.DTO;
 using NewsPublish.Infrastructure.Services.CommonServices.DTO;
 using NewsPublish.Infrastructure.Services.CommonServices.Interface;
 
@@ -63,23 +60,21 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
             MyTools.ArgumentDispose(categoryName);
             return await _context.Categories.AnyAsync(x => x.Name == categoryName);
         }
-        
-        public async Task<PagedList<ArticleListDto>> GetArticles(ArticleDtoParameters parameters, bool findFailedArticle = false)
+
+        public async Task<PagedList<ArticleListDto>> GetArticles(ArticleDtoParameters parameters,
+            bool findFailedArticle = false)
         {
             MyTools.ArgumentDispose(parameters);
 
             var articlesIQ = _context.Articles as IQueryable<Article>;
-            
-            if (findFailedArticle == false)
-            {
-                articlesIQ = articlesIQ.Where(x => x.States == true);
-            }
-            
+
+            if (findFailedArticle == false) articlesIQ = articlesIQ.Where(x => x.States);
+
             var queryExpression =
                 from a in articlesIQ
                 join u in _context.Users on a.UserId equals u.Id
                 join c in _context.Categories on a.CategoryId equals c.Id
-                select new ArticleListDto()
+                select new ArticleListDto
                 {
                     CategoryName = c.Name,
                     Avatar = u.Avatar,
@@ -104,7 +99,7 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
                         .Where(x => tagIds.Contains(x.TagId)).Select(a => a.ArticleId);
                 queryExpression = queryExpression.Where(x => articleTagIds.Contains(x.ArticleId));
             }
-            
+
             // 精确查找：标签ID
             if (parameters.TagId != Guid.Empty)
             {
@@ -117,31 +112,23 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
 
             // 精确查找：分类名字
             if (!string.IsNullOrWhiteSpace(parameters.CategoryName))
-            {
                 queryExpression = queryExpression
                     .Where(x => x.CategoryName == parameters.CategoryName);
-            }
-            
+
             // 精确查找：分类ID
             if (parameters.CategoryId != Guid.Empty)
-            {
                 queryExpression = queryExpression
                     .Where(x => x.CategoryId == parameters.CategoryId);
-            }
 
             // 精确查找：用户名字
             if (!string.IsNullOrWhiteSpace(parameters.UserName))
-            {
                 queryExpression = queryExpression
                     .Where(x => x.UserName == parameters.UserName);
-            }
-            
+
             // 精确查找：用户ID
             if (parameters.UserId != Guid.Empty)
-            {
                 queryExpression = queryExpression
                     .Where(x => x.UserId == parameters.UserId);
-            }
 
 
             // 精确查找：ID
@@ -183,7 +170,7 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
                 from a in article
                 join u in _context.Users on a.UserId equals u.Id
                 join c in _context.Categories on a.CategoryId equals c.Id
-                select new ArticleDetailDto()
+                select new ArticleDetailDto
                 {
                     CategoryName = c.Name,
                     Avatar = u.Avatar,
@@ -201,7 +188,7 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
                 };
             return await queryExpression.ToListAsync();
         }
-        
+
         public void AddArticle(Guid categoryId, Guid userId, Article article)
         {
             MyTools.ArgumentDispose(categoryId);
@@ -265,7 +252,7 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
         public async Task<Tag> GetTag(Guid tagId)
         {
             MyTools.ArgumentDispose(tagId);
-            return await 
+            return await
                 _context.Tags.FirstOrDefaultAsync(
                     x => x.Id == tagId);
         }
@@ -273,7 +260,7 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
         public async Task<Tag> GetTag(string tagName)
         {
             MyTools.ArgumentDispose(tagName);
-            return await 
+            return await
                 _context.Tags.FirstOrDefaultAsync(
                     x => x.Name == tagName);
         }
@@ -281,16 +268,13 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
         public async Task<IEnumerable<Tag>> GetArticleAllTags(Guid articleId)
         {
             MyTools.ArgumentDispose(articleId);
-            
+
             // 现在有tagID了
-            IQueryable<Guid> articleTags = _context.ArticleTags.Where(x => x.ArticleId == articleId).Select(x => x.TagId);
-            var  tags = await _context.Tags.Where(x => articleTags.Contains(x.Id)).ToListAsync();
+            var articleTags = _context.ArticleTags.Where(x => x.ArticleId == articleId).Select(x => x.TagId);
+            var tags = await _context.Tags.Where(x => articleTags.Contains(x.Id)).ToListAsync();
             return tags;
         }
-        
-        
-        
-        
+
 
         public async Task<bool> TagIsExists(Guid tagId)
         {
@@ -330,44 +314,58 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
             MyTools.ArgumentDispose(tagId);
             return await _context.ArticleTags
                 .AnyAsync(x => x.ArticleId == articleId
-                && x.TagId == tagId);
+                               && x.TagId == tagId);
         }
-        
+
         public async Task<IEnumerable<ArticleTag>> GetArticleTags(Guid articleId)
         {
             MyTools.ArgumentDispose(articleId);
             return await _context.ArticleTags.Where(x => x.ArticleId == articleId).ToListAsync();
         }
 
+        public async Task<Star> GetArticleStar(Guid articleId)
+        {
+            MyTools.ArgumentDispose(articleId);
+            var star = await _context.Stars.FirstOrDefaultAsync(x => x.Type == StarType.文章 && x.StartId == articleId);
+            return star;
+        }
+
+        public async void AddArticleStar(Guid articleId)
+        {
+            MyTools.ArgumentDispose(articleId);
+            var star = await _context.Stars.FirstOrDefaultAsync(x => x.Type == StarType.文章 && x.StartId == articleId);
+            if (star != null)
+                star.Count += 1;
+            else
+                _context.Stars.Add(new Star
+                {
+                    StartId = articleId,
+                    Type = StarType.文章,
+                    Count = 1
+                });
+        }
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() >= 0;
         }
-        
+
         public async Task<PagedList<Tag>> GetTags(TagDtoParameters parameters)
         {
             MyTools.ArgumentDispose(parameters);
-            
+
             var queryExpression = _context.Tags as IQueryable<Tag>;
 
             // 精确查询:标签名称
-            if (parameters.Name != null)
-            {
-                queryExpression = queryExpression.Where(x => x.Name == parameters.Name);
-            }
-            
+            if (parameters.Name != null) queryExpression = queryExpression.Where(x => x.Name == parameters.Name);
+
             // 模糊查询：标签名称
-            if (parameters.Q != null)
-            {
-                queryExpression = queryExpression.Where(x => x.Name.Contains(parameters.Q));
-            }
-            
+            if (parameters.Q != null) queryExpression = queryExpression.Where(x => x.Name.Contains(parameters.Q));
+
             // 处理排序
             if (!string.IsNullOrWhiteSpace(parameters.OrderBy))
-            {
                 if ("Name".Equals(parameters.OrderBy, StringComparison.CurrentCultureIgnoreCase))
                     queryExpression = queryExpression.OrderBy(x => x.Name);
-            }
 
             return await PagedList<Tag>
                 .CreateAsync(queryExpression, parameters.PageNumber, parameters.PageSize);

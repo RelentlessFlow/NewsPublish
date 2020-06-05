@@ -16,10 +16,8 @@ using NewsPublish.Infrastructure.Services.CommonServices.Interface;
 namespace NewsPublish.API.ApiCommon.Controllers
 {
     /// <summary>
-    /// 过滤器：授权用户
     /// 文章信息CRUD
     /// </summary>
-    [ServiceFilter(typeof(AutheFilter))]
     [ApiController]
     [Route("api/article")]
     public class ArticleController : ControllerBase
@@ -44,6 +42,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <returns></returns>
         // 这个是全的
         [HttpGet]
+        [ServiceFilter(typeof(AutheFilter))]
         [ServiceFilter(typeof(AssessorFilter))]
         public async Task<ActionResult<ArticleListDto>> GetArticleList([FromQuery] ArticleDtoParameters parameters)
         {
@@ -83,11 +82,30 @@ namespace NewsPublish.API.ApiCommon.Controllers
                 IEnumerable<TagDto> tags = _mapper.Map<IEnumerable<TagDto>>(tag);
                 article.Tags = tags as List<TagDto>;
                 var comments = await _commentRepository.GetComments(article.ArticleId,new CommentDtoParameters());
-                if (comments != null)
+                foreach (var comment in comments)
                 {
-                    article.Comments = comments;
+                    var commentStar = await _commentRepository.GetCommentStar(comment.Id);
+                    if (commentStar != null)
+                    {
+                        comment.StarCount = commentStar.Count;
+                    }
                 }
+                article.Comments = comments;
                 article.CommentsCount = comments.TotalCount;
+            }
+            
+            // 文章点赞数量
+            foreach (var article in articles)
+            {
+                var star = await _repository.GetArticleStar(article.ArticleId);
+                if (star == null)
+                {
+                    article.Star = 0;
+                }
+                else
+                {
+                    article.Star = star.Count;
+                }
             }
             return Ok(articles);
         }
@@ -100,6 +118,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="userId"></param>
         /// <returns></returns>
         [HttpGet]
+        [ServiceFilter(typeof(AutheFilter))]
         [ServiceFilter(typeof(CreatorFilter))]
         [Route("{article}/state")]
         public async Task<ActionResult<bool>> GetArticleState(Guid userId)
@@ -120,6 +139,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="articleId">文章ID</param>
         /// <returns></returns>
         [HttpPut]
+        [ServiceFilter(typeof(AutheFilter))]
         [ServiceFilter(typeof(AssessorFilter))]
         [Route("{article}/state")]
         public async Task<ActionResult<bool>> ChangeArticleState(Guid articleId)
@@ -145,6 +165,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="article">创建文章的DTO</param>
         /// <returns>新建文章的路由地址</returns>
         [HttpPost]
+        [ServiceFilter(typeof(AutheFilter))]
         [ServiceFilter(typeof(CreatorFilter))]
         public async Task<ActionResult<ArticleDto>> CreateArticle(ArticleAddDto article)
         {
@@ -168,6 +189,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="articleId"></param>
         /// <returns>204状态码</returns>
         [ServiceFilter(typeof(CreatorFilter))]
+        [ServiceFilter(typeof(AutheFilter))]
         [HttpDelete("{articleId}")]
         public async Task<IActionResult> DeleteArticle(Guid articleId)
         {
@@ -190,6 +212,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="article">更新文章的DTO</param>
         /// <returns></returns>
         [ServiceFilter(typeof(CreatorFilter))]
+        [ServiceFilter(typeof(AutheFilter))]
         [HttpPut("{articleId}")]
         public async Task<ActionResult<Article>> UpdateArticle(Guid articleId ,ArticleUpdateDto article)
         {
@@ -254,7 +277,19 @@ namespace NewsPublish.API.ApiCommon.Controllers
                 IEnumerable<TagDto> tags = _mapper.Map<IEnumerable<TagDto>>(tag);
                 article.Tags = tags as List<TagDto>;
             }
-
+            
+            foreach (var article in articles)
+            {
+                var star = await _repository.GetArticleStar(article.ArticleId);
+                if (star == null)
+                {
+                    article.Star = 0;
+                }
+                else
+                {
+                    article.Star = star.Count;
+                }
+            }
             return Ok(articles);
         }
 

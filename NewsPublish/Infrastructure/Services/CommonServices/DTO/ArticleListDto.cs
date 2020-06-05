@@ -22,6 +22,7 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.DTO
         public List<TagDto> Tags { get; set; }
         public string AticleTitle { get; set; }
         public string CoverPic { get; set; }
+        public byte Star { get; set; }
         public DateTime ModifyTime { get; set; }
         public DateTime CreateTime { get; set; }
         public bool State { get; set; }

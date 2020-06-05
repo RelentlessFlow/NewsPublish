@@ -66,6 +66,9 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Interface
         void DeleteTag(ArticleTag articleTag);
         Task<bool> ArticleTagIsExists(Guid articleId, Guid tagId);
         Task<IEnumerable<ArticleTag>> GetArticleTags(Guid articleId);
+        
+        Task<Star> GetArticleStar(Guid articleId);
+        void AddArticleStar(Guid articleId);
         Task<bool> SaveAsync();
     }
 }
