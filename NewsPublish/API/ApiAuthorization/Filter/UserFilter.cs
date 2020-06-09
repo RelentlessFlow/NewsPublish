@@ -3,16 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using NewsPublish.Authorization.ConfigurationModel;
-using NewsPublish.Infrastructure.Services;
+using NewsPublish.API.ApiAuthorization.ConfigurationModel;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.DTO;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.Interface;
-using NewsPublish.Infrastructure.Services.CommonServices;
 using NewsPublish.Infrastructure.Services.CommonServices.Interface;
 
-namespace NewsPublish.Authorization.Filter
+namespace NewsPublish.API.ApiAuthorization.Filter
 {
-    public class CreatorFilter : ActionFilterAttribute
+    public class UserFilter : ActionFilterAttribute
     {
         private readonly IOptions<SystemFunctionOptionName> _nameOptions;
         private readonly ITokenList _list;
@@ -20,12 +18,12 @@ namespace NewsPublish.Authorization.Filter
         private readonly IConfiguration _configuration;
 
 
-        public CreatorFilter(
+        public UserFilter(
             ITokenList tokenList, IUserRepository repository,
             IOptions<SystemFunctionOptionName> nameOptions,
             IConfiguration configuration)
         {
-            _list = tokenList ?? throw new ArgumentException(nameof(tokenList));
+            _list = tokenList ?? throw new AggregateException(nameof(tokenList));
             _repository = repository ?? throw new ArgumentException(nameof(repository));
             _nameOptions = nameOptions ?? throw new ArgumentException(nameof(nameOptions));
             _configuration = configuration ?? throw new ArgumentException(nameof(configuration));
@@ -42,7 +40,7 @@ namespace NewsPublish.Authorization.Filter
             }
             else
             {
-                var contains = userToken.RightName.Contains(_nameOptions.Value.CreatorName);
+                var contains = userToken.RightName.Contains(_nameOptions.Value.UserName);
                 if (!contains)
                 {
                     var content = new UnauthorizedObjectResult("您的访问未经授权");

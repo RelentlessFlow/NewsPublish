@@ -29,6 +29,6 @@ namespace NewsPublish.Infrastructure.DtoParameters
         public string TagName { get; set; }
         public Guid TagId { get; set; }
 
-        
+        public bool isPass { get; set; } = true;
     }
 }

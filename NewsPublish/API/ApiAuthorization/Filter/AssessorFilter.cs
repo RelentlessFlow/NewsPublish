@@ -3,14 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using NewsPublish.Authorization.ConfigurationModel;
-using NewsPublish.Infrastructure.Services;
+using NewsPublish.API.ApiAuthorization.ConfigurationModel;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.DTO;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.Interface;
-using NewsPublish.Infrastructure.Services.CommonServices;
 using NewsPublish.Infrastructure.Services.CommonServices.Interface;
 
-namespace NewsPublish.Authorization.Filter
+namespace NewsPublish.API.ApiAuthorization.Filter
 {
     public class AssessorFilter : ActionFilterAttribute
     {

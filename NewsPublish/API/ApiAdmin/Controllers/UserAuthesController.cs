@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NewsPublish.API.ApiAdmin.Models.UserAuthe;
-using NewsPublish.Authorization.Filter;
+using NewsPublish.API.ApiAuthorization.Filter;
 using NewsPublish.Database.Entities.UserEntities;
 using NewsPublish.Infrastructure.Services.AdminServices;
 using NewsPublish.Infrastructure.Services.AdminServices.Interface;

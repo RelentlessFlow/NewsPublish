@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NewsPublish.Authorization.Filter;
+using NewsPublish.API.ApiAuthorization.Filter;
 using NewsPublish.Infrastructure.Helpers;
 using NewsPublish.Infrastructure.Services.AdminServices;
 using NewsPublish.Infrastructure.Services.AdminServices.Interface;

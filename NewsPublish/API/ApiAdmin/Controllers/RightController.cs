@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NewsPublish.API.ApiAdmin.Models.Right;
-using NewsPublish.Authorization.Filter;
+using NewsPublish.API.ApiAuthorization.Filter;
 using NewsPublish.Infrastructure.Services.AdminServices.Interface;
 
 namespace NewsPublish.API.ApiAdmin.Controllers
@@ -14,6 +14,7 @@ namespace NewsPublish.API.ApiAdmin.Controllers
     /// 过滤器：管理员、授权用户
     /// </summary>
     [ApiController]
+    [ServiceFilter(typeof(AutheFilter))]
     [ServiceFilter(typeof(AdminFilter))]
     [Route("api/right")]
     public class RightController : ControllerBase

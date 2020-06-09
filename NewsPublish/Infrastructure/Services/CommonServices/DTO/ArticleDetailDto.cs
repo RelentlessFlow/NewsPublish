@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NewsPublish.API.CommenDto.Tag;
+using NewsPublish.API.ApiCommon.Models.Tag;
 using NewsPublish.Infrastructure.Helpers;
 
 namespace NewsPublish.Infrastructure.Services.CommonServices.DTO

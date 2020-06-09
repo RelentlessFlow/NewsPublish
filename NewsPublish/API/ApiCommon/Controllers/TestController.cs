@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using NewsPublish.Authorization.Filter;
 using NewsPublish.Database.Entities.ArticleEntities;
 using NewsPublish.Infrastructure.Services.CommonServices.Interface;
 

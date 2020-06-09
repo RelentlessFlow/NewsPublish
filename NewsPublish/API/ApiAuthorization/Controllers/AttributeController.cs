@@ -2,17 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http.Features.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using NewsPublish.API.ApiAdmin.Models.Login;
-using NewsPublish.Authorization.Filter;
-using NewsPublish.Infrastructure.Services;
-using NewsPublish.Infrastructure.Services.AdminServices;
+using NewsPublish.API.ApiAuthorization.Filter;
 using NewsPublish.Infrastructure.Services.AdminServices.Interface;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.DTO;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.Interface;
 
-namespace NewsPublish.Authorization.Controllers
+namespace NewsPublish.API.ApiAuthorization.Controllers
 {
     /// <summary>
     /// 授权控制器，主要完成用户的授权管理

@@ -90,6 +90,7 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
                     AticleTitle = a.Title,
                     State = a.States
                 };
+            
             // 精确查找：标签名字
             if (!string.IsNullOrWhiteSpace(parameters.TagName))
             {
@@ -142,6 +143,13 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
                 parameters.Q = parameters.Q.Trim();
                 queryExpression = queryExpression
                     .Where(x => x.AticleTitle.Contains(parameters.Q));
+            }
+            
+            // 精确查询 是否查询结果为未审核通过的文章
+            if (parameters.isPass == false)
+            {
+                queryExpression = queryExpression
+                    .Where(x => x.State == parameters.isPass);
             }
 
             // 排序

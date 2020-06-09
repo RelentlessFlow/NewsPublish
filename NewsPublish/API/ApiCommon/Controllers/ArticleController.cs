@@ -5,8 +5,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using NewsPublish.API.ApiAdmin.Models.Article;
-using NewsPublish.API.CommenDto.Tag;
-using NewsPublish.Authorization.Filter;
+using NewsPublish.API.ApiAuthorization.Filter;
+using NewsPublish.API.ApiCommon.Models.Tag;
 using NewsPublish.Database.Entities.ArticleEntities;
 using NewsPublish.Infrastructure.DtoParameters;
 using NewsPublish.Infrastructure.Helpers;
@@ -24,6 +24,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
     {
         private readonly IArticleRepository _repository;
         private readonly ICommentRepository _commentRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _environment;
 
@@ -36,26 +37,10 @@ namespace NewsPublish.API.ApiCommon.Controllers
         }
         
         /// <summary>
-        /// 过滤器：审查管理员
-        /// </summary>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
-        // 这个是全的
-        [HttpGet]
-        [ServiceFilter(typeof(AutheFilter))]
-        [ServiceFilter(typeof(AssessorFilter))]
-        public async Task<ActionResult<ArticleListDto>> GetArticleList([FromQuery] ArticleDtoParameters parameters)
-        {
-            var articleListData = await this.GetArticleListData(parameters, true);
-            return articleListData;
-        }
-        
-        /// <summary>
-        /// 获取文章列表
+        /// 获取文章列表 这个是阉割过的谁都能访问到
         /// </summary>
         /// <param name="parameters">查询条件</param>
         /// <returns>文章列表</returns>
-        // 这个是阉割过的
         [HttpGet]
         [Route("/api_site/article")]
         public async Task<ActionResult<ArticleListDto>> GetAllArticleList([FromQuery] ArticleDtoParameters parameters)
@@ -64,15 +49,13 @@ namespace NewsPublish.API.ApiCommon.Controllers
             return articleListData;
         }
         
-        
-        
         /// <summary>
         /// 获取文章详细内容
         /// </summary>
         /// <param name="articleId">文章ID</param>
         /// <returns>文章详细内容</returns>
         [HttpGet]
-        [Route("{articleId}")]
+        [Route("/api_site/{articleId}")]
         public async Task<ActionResult<ArticleDetailDto>> GetArticle(Guid articleId)
         {
             var articles = await _repository.GetArticleDetail(articleId);
@@ -110,38 +93,28 @@ namespace NewsPublish.API.ApiCommon.Controllers
             return Ok(articles);
         }
         
-        
         /// <summary>
-        /// 过滤器：创作者
-        /// 查看文章是否通过
+        /// 获取全部文章包括未审查的 过滤器：审查管理员
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpGet]
+        [Route("/api_assessor/article")]
         [ServiceFilter(typeof(AutheFilter))]
-        [ServiceFilter(typeof(CreatorFilter))]
-        [Route("{article}/state")]
-        public async Task<ActionResult<bool>> GetArticleState(Guid userId)
+        [ServiceFilter(typeof(AssessorFilter))]
+        public async Task<ActionResult<ArticleListDto>> GetArticleList([FromQuery] ArticleDtoParameters parameters)
         {
-            var articleEntity = await _repository.GetArticle(userId);
-            if (articleEntity == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(articleEntity.States);
+            var articleListData = await GetArticleListData(parameters, true);
+            return articleListData;
         }
         
         /// <summary>
-        /// 过滤器：审查管理员
-        /// 通过文章ID修改文章状态
+        /// 通过文章ID修改文章状态 过滤器：审查管理员
         /// </summary>
         /// <param name="articleId">文章ID</param>
         /// <returns></returns>
         [HttpPut]
-        [ServiceFilter(typeof(AutheFilter))]
-        [ServiceFilter(typeof(AssessorFilter))]
-        [Route("{article}/state")]
+        [Route("/api_assessor/article/{article}/state")]
         public async Task<ActionResult<bool>> ChangeArticleState(Guid articleId)
         {
             var articleEntity = await _repository.GetArticle(articleId);
@@ -156,17 +129,61 @@ namespace NewsPublish.API.ApiCommon.Controllers
             return Ok(articleEntity.States);
         }
         
-        
+        /// <summary>
+        /// 查看所有审核没有通过的文章    过滤器：创作者
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        [ServiceFilter(typeof(AutheFilter))]
+        [ServiceFilter(typeof(CreatorFilter))]
+        [HttpGet]
+        [Route("/api_creator/articleFailed")]
+        public async Task<ActionResult<ArticleListDto>> GetArticleListByCreator(Guid userId,[FromQuery] ArticleDtoParameters parameters)
+        {
+            if (!await _userRepository.UserIsExists(userId))
+            {
+                return NotFound();
+            }
+            
+            parameters.isPass = false;
+            parameters.UserId = userId;
+            var articleListData = await GetArticleListData(parameters, true);
+            return articleListData;
+        }
         
         /// <summary>
-        /// 过滤器：创作者
-        /// 新建一篇文章
+        /// 查看文章是否通过    过滤器：创作者
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [ServiceFilter(typeof(AutheFilter))]
+        [ServiceFilter(typeof(CreatorFilter))]
+        [HttpGet]
+        [Route("/api_creator/article/{article}/state")]
+        public async Task<ActionResult<bool>> GetArticleState(Guid userId)
+        {
+            var articleEntity = await _repository.GetArticle(userId);
+            if (articleEntity == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(articleEntity.States);
+        }
+
+
+
+        /// <summary>
+        /// 新建一篇文章    过滤器：创作者
         /// </summary>
         /// <param name="article">创建文章的DTO</param>
         /// <returns>新建文章的路由地址</returns>
-        [HttpPost]
         [ServiceFilter(typeof(AutheFilter))]
         [ServiceFilter(typeof(CreatorFilter))]
+        [HttpPost]
+        [Route("/api_creator/article")]
         public async Task<ActionResult<ArticleDto>> CreateArticle(ArticleAddDto article)
         {
             if (await _repository.ArticleIsExists(article.Title))
@@ -183,14 +200,15 @@ namespace NewsPublish.API.ApiCommon.Controllers
         }
         
         /// <summary>
-        /// 过滤器：创作者
         /// 删除文章
+        /// 过滤器：创作者
         /// </summary>
         /// <param name="articleId"></param>
         /// <returns>204状态码</returns>
-        [ServiceFilter(typeof(CreatorFilter))]
         [ServiceFilter(typeof(AutheFilter))]
-        [HttpDelete("{articleId}")]
+        [ServiceFilter(typeof(CreatorFilter))]
+        [HttpDelete]
+        [Route("/api_creator/article/{articleId}")]
         public async Task<IActionResult> DeleteArticle(Guid articleId)
         {
             var articleEntities = await _repository.GetArticle(articleId);
@@ -205,15 +223,16 @@ namespace NewsPublish.API.ApiCommon.Controllers
         }
         
         /// <summary>
-        /// 过滤器：创作者
         /// 更新文章
+        /// 过滤器：创作者
         /// </summary>
         /// <param name="articleId"></param>
         /// <param name="article">更新文章的DTO</param>
         /// <returns></returns>
-        [ServiceFilter(typeof(CreatorFilter))]
         [ServiceFilter(typeof(AutheFilter))]
-        [HttpPut("{articleId}")]
+        [ServiceFilter(typeof(CreatorFilter))]
+        [HttpPut]
+        [Route("/api_creator/article/{articleId}")]
         public async Task<ActionResult<Article>> UpdateArticle(Guid articleId ,ArticleUpdateDto article)
         {
             var entities = await _repository.GetArticle(articleId);
@@ -228,8 +247,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         }
         
 
-        private string CreateArticleResourceUri(ArticleDtoParameters parameters,
-            ResourceUriType type)
+        private string CreateArticleResourceUri(ArticleDtoParameters parameters, ResourceUriType type)
         {
             switch (type)
             {
@@ -263,7 +281,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         }
         
         /// <summary>
-        /// 查询文章方法
+        /// 通用查询文章方法
         /// </summary>
         /// <param name="parameters"></param>
         /// <param name="getDisabledArticle"></param>

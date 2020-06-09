@@ -7,7 +7,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NewsPublish.API.ApiAdmin.Models.Right;
 using NewsPublish.API.ApiAdmin.Models.Role;
-using NewsPublish.Authorization.Filter;
+using NewsPublish.API.ApiAuthorization.Filter;
 using NewsPublish.Database.Entities.RoleEntities;
 using NewsPublish.Infrastructure.DtoParameters;
 using NewsPublish.Infrastructure.Services.AdminServices;

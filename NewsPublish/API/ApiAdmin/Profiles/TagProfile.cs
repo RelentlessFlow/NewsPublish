@@ -1,5 +1,5 @@
 using AutoMapper;
-using NewsPublish.API.CommenDto.Tag;
+using NewsPublish.API.ApiCommon.Models.Tag;
 using NewsPublish.Database.Entities.ArticleEntities;
 
 namespace NewsPublish.API.ApiAdmin.Profiles

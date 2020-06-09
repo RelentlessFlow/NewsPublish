@@ -1,10 +1,9 @@
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.Interface;
 
-namespace NewsPublish.Authorization.Filter
+namespace NewsPublish.API.ApiAuthorization.Filter
 {
     /// <summary>
     /// 授权过滤器

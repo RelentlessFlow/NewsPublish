@@ -1,6 +1,6 @@
 using System;
 
-namespace NewsPublish.API.CommenDto.Tag
+namespace NewsPublish.API.ApiCommon.Models.Tag
 {
     /// <summary>
     /// 返回标签的DTO

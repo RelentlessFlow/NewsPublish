@@ -5,7 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NewsPublish.API.ApiAdmin.Models.Category;
 using NewsPublish.API.ApiAdmin.Models.User;
-using NewsPublish.Authorization.Filter;
+using NewsPublish.API.ApiAuthorization.Filter;
 using NewsPublish.Database.Entities.ArticleEntities;
 using NewsPublish.Infrastructure.Services.AdminServices;
 using NewsPublish.Infrastructure.Services.AdminServices.DTO;

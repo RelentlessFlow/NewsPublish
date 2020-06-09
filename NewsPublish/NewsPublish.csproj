@@ -19,7 +19,6 @@
 
     <ItemGroup>
       <Folder Include="API\ApiCommon\Models" />
-      <Folder Include="API\CommenDto" />
       <Folder Include="Database" />
       <Folder Include="wwwroot\file_user" />
     </ItemGroup>
