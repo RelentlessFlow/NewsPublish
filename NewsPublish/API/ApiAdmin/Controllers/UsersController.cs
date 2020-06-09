@@ -18,6 +18,7 @@ using NewsPublish.Infrastructure.Services.AdminServices;
 using NewsPublish.Infrastructure.Services.AdminServices.DTO;
 using NewsPublish.Infrastructure.Services.AdminServices.Interface;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.Interface;
+using NewsPublish.Infrastructure.Services.CommonServices.DTO;
 
 namespace NewsPublish.API.ApiAdmin.Controllers
 {

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using NewsPublish.Database.Entities.RoleEntities;
 using NewsPublish.Database.Entities.UserEntities;
+using NewsPublish.Infrastructure.DtoParameters;
+using NewsPublish.Infrastructure.Helpers;
+using NewsPublish.Infrastructure.Services.CommonServices.DTO;
 
 namespace NewsPublish.Infrastructure.Services.CommonServices.Interface
 {
@@ -27,6 +30,12 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Interface
         void UpdateUser(User user);
         void DeleteUser(User user);
         Task<User> GetUser(Guid userId);
+        /// <summary>
+        /// 获得用户信息
+        /// </summary>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        Task<PagedList<UserDto>> GetUsers(UserDtoParameters parameters);
         
         Task<bool> UserIsExists(Guid userId);
         Task<bool> UserIsExists(string userName);

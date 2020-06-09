@@ -21,9 +21,6 @@
       <Folder Include="API\ApiCommon\Models" />
       <Folder Include="API\CommenDto" />
       <Folder Include="Database" />
-      <Folder Include="Infrastructure\Services\UserSevices\DTO" />
-      <Folder Include="Infrastructure\Services\UserSevices\Implementation" />
-      <Folder Include="Infrastructure\Services\UserSevices\Interface" />
       <Folder Include="wwwroot\file_user" />
     </ItemGroup>
 

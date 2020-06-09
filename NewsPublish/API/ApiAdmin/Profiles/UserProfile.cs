@@ -2,6 +2,7 @@ using AutoMapper;
 using NewsPublish.API.ApiAdmin.Models.User;
 using NewsPublish.Database.Entities.UserEntities;
 using NewsPublish.Infrastructure.Services.AdminServices.DTO;
+using NewsPublish.Infrastructure.Services.CommonServices.DTO;
 
 namespace NewsPublish.API.ApiAdmin.Profiles
 {

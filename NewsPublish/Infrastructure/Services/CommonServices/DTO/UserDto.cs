@@ -1,6 +1,6 @@
 using System;
 
-namespace NewsPublish.Infrastructure.Services.AdminServices.DTO
+namespace NewsPublish.Infrastructure.Services.CommonServices.DTO
 {
     /// <summary>
     /// 从数据库查询用户的详细信息
