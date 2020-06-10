@@ -19,8 +19,8 @@ namespace NewsPublish.API.ApiAdmin.Controllers
     /// 文章分类CURD
     /// 过滤器：管理员、授权用户
     /// </summary>
-    // [ServiceFilter(typeof(AutheFilter))]
-    // [ServiceFilter(typeof(AdminFilter))]
+    [ServiceFilter(typeof(AutheFilter))]
+    [ServiceFilter(typeof(AdminFilter))]
     [ApiController]
     [Route("api/categories")]
     public class CategoryController : ControllerBase
