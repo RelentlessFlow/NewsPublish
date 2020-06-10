@@ -4,7 +4,6 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using NewsPublish.API.ApiAdmin.Models.Article;
 using NewsPublish.API.ApiAuthorization.Filter;
@@ -28,13 +27,11 @@ namespace NewsPublish.API.ApiCommon.Controllers
         private readonly ICommentRepository _commentRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _environment;
 
-        public ArticleController(IArticleRepository repository, IMapper mapper,IWebHostEnvironment environment, ICommentRepository commentRepository, IUserRepository userRepository)
+        public ArticleController(IArticleRepository repository, IMapper mapper, ICommentRepository commentRepository, IUserRepository userRepository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _environment = environment ?? throw new ArgumentNullException(nameof(environment));
             _commentRepository = commentRepository ?? throw new ArgumentException(nameof(commentRepository));
             _userRepository = userRepository;
         }
@@ -46,7 +43,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <returns>文章列表</returns>
         [HttpGet]
         [Route("/api_site/article")]
-        public async Task<ActionResult<PagedList<ArticleListDto>>> GetAllArticleList([FromQuery] ArticleDtoParameters parameters)
+        public async Task<ActionResult<IEnumerable<ArticleListDto>>> GetAllArticleList([FromQuery] ArticleDtoParameters parameters)
         {
             var articleListData = await this.GetArticleListData(parameters);
             return articleListData;
@@ -105,7 +102,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         [Route("/api_assessor/article")]
         [ServiceFilter(typeof(AutheFilter))]
         [ServiceFilter(typeof(AssessorFilter))]
-        public async Task<ActionResult<PagedList<ArticleListDto>>> GetArticleList([FromQuery] ArticleDtoParameters parameters)
+        public async Task<ActionResult<IEnumerable<ArticleListDto>>> GetArticleList([FromQuery] ArticleDtoParameters parameters)
         {
             var articleListData = await GetArticleListData(parameters, true);
             return articleListData;
@@ -145,7 +142,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         [ServiceFilter(typeof(CreatorFilter))]
         [HttpGet]
         [Route("/api_creator/articleFailed")]
-        public async Task<ActionResult<PagedList<ArticleListDto>>> GetArticleListByCreator(Guid userId,[FromQuery] ArticleDtoParameters parameters)
+        public async Task<ActionResult<IEnumerable<ArticleListDto>>> GetArticleListByCreator(Guid userId,[FromQuery] ArticleDtoParameters parameters)
         {
             if (!await _userRepository.UserIsExists(userId))
             {
@@ -291,7 +288,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="parameters"></param>
         /// <param name="getDisabledArticle"></param>
         /// <returns></returns>
-        private async Task<ActionResult<PagedList<ArticleListDto>>> GetArticleListData(ArticleDtoParameters parameters, bool getDisabledArticle = false)
+        private async Task<ActionResult<IEnumerable<ArticleListDto>>> GetArticleListData(ArticleDtoParameters parameters, bool getDisabledArticle = false)
         {
             var articles = await _repository.GetArticles(parameters,getDisabledArticle);
             foreach (var article in articles)
