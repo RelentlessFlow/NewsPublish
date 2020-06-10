@@ -4,6 +4,7 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using NewsPublish.API.ApiAdmin.Models.Article;
 using NewsPublish.API.ApiAuthorization.Filter;
@@ -28,7 +29,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ArticleController(IArticleRepository repository, IMapper mapper, ICommentRepository commentRepository, IUserRepository userRepository)
+        public ArticleController(IArticleRepository repository, IMapper mapper,IWebHostEnvironment environment, ICommentRepository commentRepository, IUserRepository userRepository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -195,7 +196,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
             
             var addToDto = _mapper.Map<Article>(article);
             _repository.AddArticle(article.CategoryId,article.UserId,addToDto);
-
+            
             var dtoToReturn = _mapper.Map<ArticleDto>(addToDto);
             await _repository.SaveAsync();
             return CreatedAtRoute(nameof(GetArticle), new {articleId = addToDto.Id}, dtoToReturn);
