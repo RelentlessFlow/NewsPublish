@@ -9,7 +9,7 @@ using NewsPublish.Database.Data;
 namespace NewsPublish.Migrations
 {
     [DbContext(typeof(RoutineDbContext))]
-    [Migration("20200605012607_InitialMigration")]
+    [Migration("20200610030625_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,8 +67,8 @@ namespace NewsPublish.Migrations
                             CategoryId = new Guid("1c4ec57b-35b4-4b06-971c-02e4fa316a92"),
                             Content = "根据外媒macrumors消息，DigiTimes最近的一份报告显示苹果希望在未来几年内将环境光传感器集成到新型的AirPods中。",
                             CoverPic = "https://img.ithome.com/newsuploadfiles/2020/5/20200525_202833_144.png",
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(9800),
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(150),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(9930),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(270),
                             States = true,
                             Title = "DigiTimes：苹果未来 AirPods 将搭载“环境光传感器”",
                             UserId = new Guid("6fb600c1-9011-4fd7-9234-881379716440")
@@ -79,8 +79,8 @@ namespace NewsPublish.Migrations
                             CategoryId = new Guid("42a2bae9-09c2-47ae-94de-3912debff652"),
                             Content = "一直以来，华为公司就像美国政府的“眼中钉”，不断遭美制裁。近两年，美国政府对华为的制裁愈演愈烈，甚至让其对外发声时只能苛求“活下来”。",
                             CoverPic = "https://img.ithome.com/newsuploadfiles/2020/2/20200214_090339_584.jpg",
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(860),
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(880),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(960),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(970),
                             States = true,
                             Title = "华为“去美国化”的成功几率有多大？”",
                             UserId = new Guid("6fb600c1-9011-4fd7-9234-881379716440")
@@ -91,8 +91,8 @@ namespace NewsPublish.Migrations
                             CategoryId = new Guid("1c4ec57b-35b4-4b06-971c-02e4fa316a92"),
                             Content = "两会期间，董明珠在接受采访时表示：“六稳”“六保”首先就是稳企业、保居民就业。企业的生命力体现在遭遇不可抗力时的风险防控能力，这个时候还能呵护我的员工，让他们在这很安全，我们就要做这种风险防控，今年一下真的给兑现了。",
                             CoverPic = "https://img.ithome.com/newsuploadfiles/2020/5/20200525_191650_79.png",
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(900),
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(900),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(990),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(990),
                             States = false,
                             Title = "董明珠称坚决不裁员：员工少1000块钱能活，没工作很难活下去",
                             UserId = new Guid("6fb600c1-9011-4fd7-9234-881379716440")
@@ -103,8 +103,8 @@ namespace NewsPublish.Migrations
                             CategoryId = new Guid("1c4ec57b-35b4-4b06-971c-02e4fa316a92"),
                             Content = "今天，天猫618正式启动。据天猫官方数据显示，第1小时预售成交额同比增长515 %！",
                             CoverPic = "https://img.ithome.com/newsuploadfiles/2020/5/20200525102542_7599.jpg",
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(910),
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(910),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(1000),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(1000),
                             States = true,
                             Title = "史上最大规模！天猫618今日正式启动”",
                             UserId = new Guid("6fb600c1-9011-4fd7-9234-881379716440")
@@ -115,8 +115,8 @@ namespace NewsPublish.Migrations
                             CategoryId = new Guid("1c4ec57b-35b4-4b06-971c-02e4fa316a92"),
                             Content = "小米全面屏电视Pro 32英寸新品发布，5月25日全渠道开售!",
                             CoverPic = "https://img.ithome.com/newsuploadfiles/2020/5/20200525_120326_295.jpg",
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(920),
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(920),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(1010),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(1010),
                             States = true,
                             Title = "小米全面屏电视 Pro 32 英寸新品发布，售价 899 元”",
                             UserId = new Guid("bbdee09c-089b-4d30-bece-44df5923716c")
@@ -187,13 +187,13 @@ namespace NewsPublish.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3a3bf56d-fa96-4135-9ce3-f6b8d51f7165"),
+                            Id = new Guid("b97a33f5-8819-4a77-b42e-3f2a3b0c707e"),
                             Name = "娱乐",
                             Remark = "娱乐新闻"
                         },
                         new
                         {
-                            Id = new Guid("557bd08b-a182-49da-b044-577a817e7f70"),
+                            Id = new Guid("33dd3718-a9fc-4778-b23b-201d897e0b4b"),
                             Name = "财经",
                             Remark = "财经新闻"
                         },
@@ -238,15 +238,15 @@ namespace NewsPublish.Migrations
                             Id = new Guid("e75c9ede-8394-43f6-821d-e06f36024f9e"),
                             ArticleId = new Guid("5930a2b7-0f93-49e1-a5e9-c764238fb5c1"),
                             Content = "加油华为！",
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(5030),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(4950),
                             UserId = new Guid("bbdee09c-089b-4d30-bece-44df5923716c")
                         },
                         new
                         {
-                            Id = new Guid("9477d1d5-d6ff-45e5-859a-0a7985318fe3"),
+                            Id = new Guid("0253e336-5ba5-4067-9b0c-d0337ede4a5f"),
                             ArticleId = new Guid("5930a2b7-0f93-49e1-a5e9-c764238fb5c1"),
                             Content = "干翻老美！",
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(6570),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(6000),
                             UserId = new Guid("5efc910b-2f45-43df-afae-620d40542853")
                         });
                 });
@@ -284,19 +284,19 @@ namespace NewsPublish.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c57558d0-68b4-46d1-82cb-97ffd806641b"),
+                            Id = new Guid("1ef4fe02-f9ae-4dd5-9ca5-bba4324f27f6"),
                             CommentId = new Guid("e75c9ede-8394-43f6-821d-e06f36024f9e"),
                             Content = "说得好!",
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(8830),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(8270),
                             ReceivedId = new Guid("5efc910b-2f45-43df-afae-620d40542853"),
                             UserId = new Guid("bbdee09c-089b-4d30-bece-44df5923716c")
                         },
                         new
                         {
-                            Id = new Guid("29d89c3a-8e53-4976-bfe2-5e3db48a5a82"),
+                            Id = new Guid("e5f237a1-6cff-4ffb-9921-4bc27b3aba1e"),
                             CommentId = new Guid("e75c9ede-8394-43f6-821d-e06f36024f9e"),
                             Content = "说得好!",
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(9250),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(8670),
                             ReceivedId = new Guid("5efc910b-2f45-43df-afae-620d40542853"),
                             UserId = new Guid("bbdee09c-089b-4d30-bece-44df5923716c")
                         });
@@ -347,20 +347,72 @@ namespace NewsPublish.Migrations
                         new
                         {
                             Id = new Guid("c456990c-05db-4965-9334-a295b7f0f993"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(3440),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(3350),
                             Name = "华为"
                         },
                         new
                         {
                             Id = new Guid("675db0e3-d57d-469b-a07f-09a3ef8a20eb"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(3820),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(3730),
                             Name = "国际"
                         },
                         new
                         {
                             Id = new Guid("78750f26-d3e7-4ebc-b69a-1c88f44e67ba"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 582, DateTimeKind.Local).AddTicks(3850),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 923, DateTimeKind.Local).AddTicks(3740),
                             Name = "科技"
+                        });
+                });
+
+            modelBuilder.Entity("NewsPublish.Database.Entities.AuditEntities.CreatorAutheAudit", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("AuditStatus")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsPass")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Remark")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ReturnRemark")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CreatorAutheAudits");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("afda3d6d-508a-4552-bf69-026dc22d791d"),
+                            AuditStatus = false,
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(2550),
+                            IsPass = false,
+                            Remark = "身份信息如下：",
+                            UserId = new Guid("6091967b-0952-425a-9eda-840b24da5534")
+                        },
+                        new
+                        {
+                            Id = new Guid("01883fc0-bc86-4b32-9de9-b2f7c4cb582a"),
+                            AuditStatus = false,
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(4010),
+                            IsPass = false,
+                            Remark = "2身份信息如下：",
+                            UserId = new Guid("6091967b-0952-425a-9eda-840b24da5534")
                         });
                 });
 
@@ -427,55 +479,55 @@ namespace NewsPublish.Migrations
                         {
                             RoleId = new Guid("b6355a7e-4511-45ba-adfb-cc4d026e1f6f"),
                             RightId = new Guid("fe4ebf2e-f1e9-48c8-9a52-d297e865c4a1"),
-                            Id = new Guid("2e2fc05d-b30b-4433-818e-f0fec2b7908e")
+                            Id = new Guid("87794936-d75b-43cf-850f-7912d6d5a512")
                         },
                         new
                         {
                             RoleId = new Guid("b6355a7e-4511-45ba-adfb-cc4d026e1f6f"),
                             RightId = new Guid("8897880e-3ffe-4842-9c22-ff3a212448bc"),
-                            Id = new Guid("12976eb3-e9b3-49ca-88e9-b8fb6ad41caf")
+                            Id = new Guid("28d8f092-07a7-4d8c-9ff9-52185c038e19")
                         },
                         new
                         {
                             RoleId = new Guid("b6355a7e-4511-45ba-adfb-cc4d026e1f6f"),
                             RightId = new Guid("086de130-5dd4-4542-a459-ce819a9b3a08"),
-                            Id = new Guid("4ac2888f-5d27-45b4-b200-cdb5cae8af48")
+                            Id = new Guid("45d3b314-7ab9-44ef-bdff-f9994bd8488e")
                         },
                         new
                         {
                             RoleId = new Guid("b6355a7e-4511-45ba-adfb-cc4d026e1f6f"),
                             RightId = new Guid("875fe2b2-73e1-4c04-873c-daa459220cb7"),
-                            Id = new Guid("cf4c5126-3ff6-442c-82ec-a89407b00e0d")
+                            Id = new Guid("e501ffcb-a195-44c7-bc5a-20b1bd4a93c0")
                         },
                         new
                         {
                             RoleId = new Guid("6b42039e-2da4-4d1e-876f-a0ef001537c3"),
                             RightId = new Guid("875fe2b2-73e1-4c04-873c-daa459220cb7"),
-                            Id = new Guid("07b77346-f038-429f-b6f3-082f1900ce5f")
+                            Id = new Guid("7eafadd7-fdc7-44bc-8991-dcaa1db43421")
                         },
                         new
                         {
                             RoleId = new Guid("6b42039e-2da4-4d1e-876f-a0ef001537c3"),
                             RightId = new Guid("086de130-5dd4-4542-a459-ce819a9b3a08"),
-                            Id = new Guid("8a4540f5-92f4-40c7-b2e5-c2f8af59eb0d")
+                            Id = new Guid("51aec548-6dee-4b8e-befb-8f056ddf515e")
                         },
                         new
                         {
                             RoleId = new Guid("b44b39d1-f61d-4e58-94a7-db1603a82c34"),
                             RightId = new Guid("8897880e-3ffe-4842-9c22-ff3a212448bc"),
-                            Id = new Guid("04df7fc6-db0b-4d37-9209-2a69418c8c1a")
+                            Id = new Guid("2bdb61bc-8e41-47d3-825e-d143de225bd0")
                         },
                         new
                         {
                             RoleId = new Guid("b44b39d1-f61d-4e58-94a7-db1603a82c34"),
                             RightId = new Guid("086de130-5dd4-4542-a459-ce819a9b3a08"),
-                            Id = new Guid("5f23aeea-6df0-4c47-8f41-b497cd5e7339")
+                            Id = new Guid("12180273-7dd1-4164-96d1-418a3e9ddb6a")
                         },
                         new
                         {
                             RoleId = new Guid("c04383df-5c8e-45c6-9841-9c775ab5af2e"),
                             RightId = new Guid("086de130-5dd4-4542-a459-ce819a9b3a08"),
-                            Id = new Guid("2248243f-b915-4952-999f-31643cd7f719")
+                            Id = new Guid("53a94b71-1cf7-4dee-a29f-4d857f987889")
                         });
                 });
 
@@ -507,29 +559,29 @@ namespace NewsPublish.Migrations
                         new
                         {
                             Id = new Guid("b6355a7e-4511-45ba-adfb-cc4d026e1f6f"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 577, DateTimeKind.Local).AddTicks(7390),
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 580, DateTimeKind.Local).AddTicks(4660),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 918, DateTimeKind.Local).AddTicks(9460),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 921, DateTimeKind.Local).AddTicks(2910),
                             Name = "管理员"
                         },
                         new
                         {
                             Id = new Guid("6b42039e-2da4-4d1e-876f-a0ef001537c3"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 580, DateTimeKind.Local).AddTicks(5620),
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 580, DateTimeKind.Local).AddTicks(5630),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 921, DateTimeKind.Local).AddTicks(3730),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 921, DateTimeKind.Local).AddTicks(3740),
                             Name = "内容审查"
                         },
                         new
                         {
                             Id = new Guid("b44b39d1-f61d-4e58-94a7-db1603a82c34"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 580, DateTimeKind.Local).AddTicks(5650),
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 580, DateTimeKind.Local).AddTicks(5650),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 921, DateTimeKind.Local).AddTicks(3760),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 921, DateTimeKind.Local).AddTicks(3760),
                             Name = "自媒体"
                         },
                         new
                         {
                             Id = new Guid("c04383df-5c8e-45c6-9841-9c775ab5af2e"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 580, DateTimeKind.Local).AddTicks(5650),
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 580, DateTimeKind.Local).AddTicks(5660),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 921, DateTimeKind.Local).AddTicks(3770),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 921, DateTimeKind.Local).AddTicks(3770),
                             Name = "用户"
                         });
                 });
@@ -610,6 +662,15 @@ namespace NewsPublish.Migrations
                             NickName = "王五",
                             RoleId = new Guid("b6355a7e-4511-45ba-adfb-cc4d026e1f6f"),
                             States = true
+                        },
+                        new
+                        {
+                            Id = new Guid("6091967b-0952-425a-9eda-840b24da5534"),
+                            Avatar = "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+                            Introduce = "卑微的普通用户",
+                            NickName = "卑微的用户",
+                            RoleId = new Guid("c04383df-5c8e-45c6-9841-9c775ab5af2e"),
+                            States = true
                         });
                 });
 
@@ -653,52 +714,52 @@ namespace NewsPublish.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("efce6067-0a2a-49b6-b432-1a81a7cae107"),
+                            Id = new Guid("be4207e1-ad15-42b0-87b2-a8c8c361e159"),
                             Account = "17692463717",
                             AuthType = 1,
                             Credential = "1234567890",
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(2450),
-                            RegisterTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(2090),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(470),
+                            RegisterTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(30),
                             UserId = new Guid("bbdee09c-089b-4d30-bece-44df5923716c")
                         },
                         new
                         {
-                            Id = new Guid("1b1cf9ec-0547-45b6-904f-1957e4684900"),
+                            Id = new Guid("51b9b7ef-9add-429d-8cfb-a8e5cd1ad521"),
                             Account = "17692463717@qq.com",
                             AuthType = 2,
                             Credential = "1234567890",
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(3220),
-                            RegisterTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(3210),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(1240),
+                            RegisterTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(1230),
                             UserId = new Guid("bbdee09c-089b-4d30-bece-44df5923716c")
                         },
                         new
                         {
-                            Id = new Guid("a145e756-090e-46c7-ba6d-c61b980dfc36"),
+                            Id = new Guid("3f93ff8d-7f87-40b3-b37f-e21e60041921"),
                             Account = "13300339033",
                             AuthType = 1,
                             Credential = "1234567890",
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(3250),
-                            RegisterTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(3250),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(1270),
+                            RegisterTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(1270),
                             UserId = new Guid("6fb600c1-9011-4fd7-9234-881379716440")
                         },
                         new
                         {
-                            Id = new Guid("b9190ee3-4ba8-47d2-b847-587293b70f19"),
+                            Id = new Guid("f119ec50-94e8-4569-a384-8fbf92d5d5f0"),
                             Account = "14302330899",
                             AuthType = 1,
                             Credential = "1234567890",
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(3260),
-                            RegisterTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(3260),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(1280),
+                            RegisterTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(1270),
                             UserId = new Guid("5efc910b-2f45-43df-afae-620d40542853")
                         },
                         new
                         {
-                            Id = new Guid("f452ced4-8337-45ed-9d80-b40dc7563c79"),
+                            Id = new Guid("e0d14d6b-998e-4ca6-aca2-aa00c40c9b37"),
                             Account = "13402330890",
                             AuthType = 1,
                             Credential = "1234567890",
-                            ModifyTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(3270),
-                            RegisterTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(3270),
+                            ModifyTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(1280),
+                            RegisterTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(1280),
                             UserId = new Guid("6fb600c1-9011-4fd7-9234-881379716400")
                         });
                 });
@@ -733,24 +794,24 @@ namespace NewsPublish.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9300c6fb-10ad-41b6-adf3-bc415c18ef90"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(4860),
+                            Id = new Guid("73c28988-1a82-457c-9931-50e36ecfd7b3"),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(5350),
                             Picture = "https://www.baidu.com/img/pc_cc75653cd975aea6d4ba1f59b3697455.png",
                             Remark = "百度一下，你就知道",
                             Url = "https://www.baidu.com/"
                         },
                         new
                         {
-                            Id = new Guid("3073cdae-a898-4275-9487-209527f74d33"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(5580),
+                            Id = new Guid("59360764-adf3-4023-9feb-aabbe89a855a"),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(6040),
                             Picture = "https://www.baidu.com/img/pc_cc75653cd975aea6d4ba1f59b3697455.png",
                             Remark = "百度一下，你就知道",
                             Url = "https://www.baidu.com/"
                         },
                         new
                         {
-                            Id = new Guid("a224282b-65d5-4439-bb17-0de26454e8fc"),
-                            CreateTime = new DateTime(2020, 6, 5, 9, 26, 7, 581, DateTimeKind.Local).AddTicks(5610),
+                            Id = new Guid("3a43c843-4992-423e-9f10-67c2107b56e5"),
+                            CreateTime = new DateTime(2020, 6, 10, 11, 6, 24, 922, DateTimeKind.Local).AddTicks(6070),
                             Picture = "https://www.baidu.com/img/pc_cc75653cd975aea6d4ba1f59b3697455.png",
                             Remark = "百度一下，你就知道",
                             Url = "https://www.baidu.com/"
@@ -812,6 +873,15 @@ namespace NewsPublish.Migrations
 
                     b.HasOne("NewsPublish.Database.Entities.UserEntities.User", "User")
                         .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("NewsPublish.Database.Entities.AuditEntities.CreatorAutheAudit", b =>
+                {
+                    b.HasOne("NewsPublish.Database.Entities.UserEntities.User", "User")
+                        .WithMany("CreatorAutheAudit")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

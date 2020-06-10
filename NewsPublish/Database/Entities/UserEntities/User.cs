@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NewsPublish.Database.Entities.ArticleEntities;
+using NewsPublish.Database.Entities.AuditEntities;
 using NewsPublish.Database.Entities.RoleEntities;
 
 namespace NewsPublish.Database.Entities.UserEntities
@@ -24,5 +25,8 @@ namespace NewsPublish.Database.Entities.UserEntities
         public Role Role { get; set; }
         public ICollection<UserAuthe> UserAuthes { get; set; }
         public ICollection<Article> Articles { get; set; }
+        
+        // 创作者报表 一对一
+        public List<CreatorAutheAudit> CreatorAutheAudit { get; set; }
     }
 }

@@ -81,7 +81,7 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         /// </summary>
         /// <param name="categoryId">分类ID</param>
         /// <returns>204状态码</returns>
-        [HttpDelete]
+        [HttpDelete("{categoryId}")]
         public async Task<IActionResult> DeleteCategory(Guid categoryId)
         {
             Category entities = await _repository.GetCategory(categoryId);

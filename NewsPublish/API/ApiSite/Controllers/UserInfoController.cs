@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NewsPublish.API.ApiAuthorization.ConfigurationModel;
 using NewsPublish.API.ApiSite.Models.User;
+using NewsPublish.Database.Entities.RoleEntities;
 using NewsPublish.Database.Entities.UserEntities;
 using NewsPublish.Infrastructure.DtoParameters;
 using NewsPublish.Infrastructure.Helpers;
@@ -61,9 +62,7 @@ namespace NewsPublish.API.ApiSite.Controllers
 
             return userInfoDto;
         }
-        
-        
-        
+
         /// <summary>
         /// 修改用户昵称
         /// </summary>

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using NewsPublish.Database.Entities.ArticleEntities;
+using NewsPublish.Database.Entities.AuditEntities;
 using NewsPublish.Database.Entities.RoleEntities;
 using NewsPublish.Database.Entities.UserEntities;
 using NewsPublish.Database.Entities.WebEntities;
@@ -36,6 +37,9 @@ namespace NewsPublish.Database.Data
         public DbSet<ArticleTag> ArticleTags { get; set; }
 
         public DbSet<Banner> Banners { get; set; }
+        
+        // 创作者认证报表
+        public DbSet<CreatorAutheAudit> CreatorAutheAudits { get; set; }
 
         // 配置数据库约束
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -134,6 +138,7 @@ namespace NewsPublish.Database.Data
                 .Property(x => x.Count).IsRequired();
             modelBuilder.Entity<Star>()
                 .Property(x => x.StartId).IsRequired();
+            
 
             // 一个分类中包含很多文章
             modelBuilder.Entity<Article>()
@@ -173,8 +178,20 @@ namespace NewsPublish.Database.Data
                 .Property(x => x.Url).IsRequired().HasMaxLength(300);
             modelBuilder.Entity<Banner>()
                 .Property(x => x.Remark).IsRequired().HasMaxLength(1000);
-
-
+            
+            // 报表表约束
+            modelBuilder.Entity<CreatorAutheAudit>()
+                .Property(x => x.Remark).IsRequired();
+            modelBuilder.Entity<CreatorAutheAudit>()
+                .Property(x => x.IsPass).IsRequired();
+            modelBuilder.Entity<CreatorAutheAudit>()
+                .Property(x => x.AuditStatus).IsRequired();
+            
+            modelBuilder.Entity<CreatorAutheAudit>()
+                .HasOne(s => s.User)
+                .WithMany(x => x.CreatorAutheAudit)
+                .HasForeignKey(x => x.UserId);
+            
             // 种子数据
             modelBuilder.Entity<Right>().HasData(
                 new Right
@@ -338,6 +355,15 @@ namespace NewsPublish.Database.Data
                     Introduce = "大家好，我是王五！",
                     RoleId = Guid.Parse("b6355a7e-4511-45ba-adfb-cc4d026e1f6f"),
                     States = true
+                },
+                new User
+                {
+                    Id = Guid.Parse("6091967b-0952-425a-9eda-840b24da5534"),
+                    NickName = "卑微的用户",
+                    Avatar = "https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png",
+                    Introduce = "卑微的普通用户",
+                    RoleId = Guid.Parse("c04383df-5c8e-45c6-9841-9c775ab5af2e"),
+                    States = true
                 }
             );
 
@@ -394,6 +420,25 @@ namespace NewsPublish.Database.Data
                 }
             );
 
+            modelBuilder.Entity<CreatorAutheAudit>().HasData(
+                new CreatorAutheAudit
+                {
+                    Id = Guid.Parse("afda3d6d-508a-4552-bf69-026dc22d791d"),
+                    Remark = "身份信息如下：",
+                    CreateTime = DateTime.Now,
+                    UserId = Guid.Parse("6091967b-0952-425a-9eda-840b24da5534"),
+                    AuditStatus = false,
+                    IsPass = false
+                });
+            
+            modelBuilder.Entity<CreatorAutheAudit>().HasData(
+                new CreatorAutheAudit
+                {
+                    Id = Guid.Parse("01883fc0-bc86-4b32-9de9-b2f7c4cb582a"),
+                    Remark = "2身份信息如下：",
+                    CreateTime = DateTime.Now,
+                    UserId = Guid.Parse("6091967b-0952-425a-9eda-840b24da5534")
+                });
             modelBuilder.Entity<Banner>().HasData(
                 new Banner
                 {

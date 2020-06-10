@@ -145,6 +145,9 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
                     Name = user.NickName,
                     RoleName = role.Name
                 };
+            
+            // 按照用户ID查找用户
+            if (parameters.UserId != Guid.Empty) queryable = queryable.Where(x => x.Id == parameters.UserId);
 
             // 按照权限查找用户
             if (parameters.RoleId != Guid.Empty) queryable = queryable.Where(x => x.RoleId == parameters.RoleId);

@@ -17,6 +17,8 @@ using NewsPublish.Infrastructure.Services;
 using NewsPublish.Infrastructure.Services.AdminServices;
 using NewsPublish.Infrastructure.Services.AdminServices.Implementation;
 using NewsPublish.Infrastructure.Services.AdminServices.Interface;
+using NewsPublish.Infrastructure.Services.AssessServices.Implementation;
+using NewsPublish.Infrastructure.Services.AssessServices.Interface;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.Implementation;
 using NewsPublish.Infrastructure.Services.AuthorizeServices.Interface;
 using NewsPublish.Infrastructure.Services.CommonServices;
@@ -107,6 +109,9 @@ namespace NewsPublish
             services.AddScoped<IWebRepository, WebRepository>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
+            
+            // 创作者认证服务依赖注入
+            services.AddScoped<ICreatorAutheAuditsRepository, CreatorAutheAuditsRepository>();
             
             // 管理员服务依赖注入
             services.AddScoped<IUserRepositoryExtendAdmin, UserRepositoryExtendAdmin>();
