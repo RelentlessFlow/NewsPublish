@@ -69,20 +69,21 @@ namespace NewsPublish.API.ApiSite.Controllers
         /// <param name="id"></param>
         /// <param name="nickName"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         [Route("nickName")]
         public async Task<IActionResult> ChangUserNickName(Guid id ,string nickName)
         {
-            if (! await _repository.UserIsExists(id))
+            var user = await _repository.GetUser(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            if (nickName == null)
+            if (await _repository.UserNickNameIsExists(nickName))
             {
-                return ValidationProblem(nickName);
+                return ValidationProblem("昵称已经存在");
             }
-            var user = await _repository.GetUser(id);
+            
             user.NickName = nickName;
             await _repository.SaveAsync();
             return NoContent();
@@ -94,21 +95,17 @@ namespace NewsPublish.API.ApiSite.Controllers
         /// <param name="id"></param>
         /// <param name="avatarUrl"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         [Route("avatarUrl")]
         public async Task<IActionResult> ChangUserAvatar(Guid id, string avatarUrl)
         {
-            if (! await _repository.UserIsExists(id))
+            var user = await _repository.GetUser(id);
+            if (user == null)
             {
                 return NotFound();
             }
             
-            if (avatarUrl == null)
-            {
-                return ValidationProblem(avatarUrl);
-            }
             
-            var user = await _repository.GetUser(id);
             user.Avatar = avatarUrl;
             await _repository.SaveAsync();
             return NoContent();
@@ -120,21 +117,16 @@ namespace NewsPublish.API.ApiSite.Controllers
         /// <param name="id"></param>
         /// <param name="introduce"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         [Route("introduce")]
         public async Task<IActionResult> ChangUserIntroduce(Guid id, string introduce)
         {
-            if (! await _repository.UserIsExists(id))
+            var user = await _repository.GetUser(id);
+            if (user == null)
             {
                 return NotFound();
             }
             
-            if (introduce == null)
-            {
-                return ValidationProblem(introduce);
-            }
-            
-            var user = await _repository.GetUser(id);
             user.Introduce = introduce;
             await _repository.SaveAsync();
             return NoContent();
