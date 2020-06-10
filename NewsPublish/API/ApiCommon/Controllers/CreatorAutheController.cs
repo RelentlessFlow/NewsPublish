@@ -21,7 +21,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
     /// 创作者认证控制器
     /// </summary>
     [ServiceFilter(typeof(AutheFilter))]
-    [Route("api_user/creatorAuthe")]
+    [Route("api_assessor/creatorAuthe")]
     public class CreatorAutheController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
@@ -38,6 +38,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="addDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [Route("api_user/creatorAuthe")]
         [ServiceFilter(typeof(UserFilter))]
         public async Task<IActionResult> CreateCreatorAutheAudit(CreatorAutheAuditAddDto addDto)
         {
@@ -45,14 +46,14 @@ namespace NewsPublish.API.ApiCommon.Controllers
             {
                 return NotFound();
             }
-
+        
             var addToEntity = new CreatorAutheAudit
             {
                 Remark = addDto.Remark,
                 UserId = addDto.UserId
             };
             _auditsRepository.AddCreatorAutheAudits(addToEntity);
-            return CreatedAtRoute(nameof(GetCreatorAutheAuditByUserId),new {userId = addToEntity.UserId},addToEntity);
+            return CreatedAtRoute((nameof(GetCreatorAutheAudit)),new {userId = addToEntity.UserId},addToEntity);
         }
         
         /// <summary>
@@ -100,7 +101,8 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// </summary>
         /// <param name="auditId"></param>
         /// <returns></returns>
-        [HttpGet(nameof(GetCreatorAutheAudit))]
+        [HttpGet]
+        [Route("/api_assessor/creatorAuthe/{auditId}")]
         [ServiceFilter(typeof(AssessorFilter))]
         public async Task<ActionResult<CreatorAutheAuditsDto>> GetCreatorAutheAudit(Guid auditId)
         {
@@ -117,11 +119,15 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// </summary>
         /// <param name="auditId"></param>
         /// <returns></returns>
-        [HttpGet(nameof(GetCreatorAutheAuditByUserId))]
+        [HttpGet]
+        [Route("{userId}", Name = nameof(GetCreatorAutheAuditByUserId))]
         [ServiceFilter(typeof(UserFilter))]
         public async Task<ActionResult<CreatorAutheAuditsDto>> GetCreatorAutheAuditByUserId(Guid userId)
         {
-            var creatorAutheAudit  = await _auditsRepository.GetCreatorAutheAudit(userId);
+            var creatorAutheAudit  = await _auditsRepository.GetAllCreatorAutheAudits(new CreatorAutheAuditsDtoParameters
+            {
+                userId = userId
+            });
             if (creatorAutheAudit == null)
             {
                 return NotFound();
@@ -129,7 +135,12 @@ namespace NewsPublish.API.ApiCommon.Controllers
             return Ok(creatorAutheAudit);
         }
         
-        
+        /// <summary>
+        /// 审核文章
+        /// </summary>
+        /// <param name="auditId"></param>
+        /// <param name="editStateDto"></param>
+        /// <returns></returns>
         [Route("/api_assessor/{auditId}/state")]
         [HttpPut]
         public async Task<IActionResult> ChangeCreatorAutheAuditState(Guid auditId,CreatorAutheAuditEditStateDto editStateDto)
@@ -152,7 +163,8 @@ namespace NewsPublish.API.ApiCommon.Controllers
             
                 user.RoleId = editStateDto.RoleId;
             }
-            auditEntity.ReturnRemark = editStateDto.ReturnRemark;
+            auditEntity.ReviewRemark = editStateDto.ReviewRemark;
+            auditEntity.ReviewTime = DateTime.Now;
             await _auditsRepository.SaveAsync();
             return NoContent();
         }

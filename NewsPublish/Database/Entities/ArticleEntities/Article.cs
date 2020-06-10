@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NewsPublish.Database.Entities.AuditEntities;
 using NewsPublish.Database.Entities.UserEntities;
 
 namespace NewsPublish.Database.Entities.ArticleEntities
@@ -30,5 +31,8 @@ namespace NewsPublish.Database.Entities.ArticleEntities
         
         // Tag标签:多对多
         public List<ArticleTag> ArticleTags { get; set; }
+        // 文章报表
+        public List<ArticleReviewAudit> Audits { get; set; }
+
     }
 }

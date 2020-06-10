@@ -1,16 +1,13 @@
 using System;
+using System.Collections.Generic;
+using NewsPublish.Database.Entities.ArticleEntities;
 using NewsPublish.Database.Entities.UserEntities;
 
 namespace NewsPublish.Database.Entities.AuditEntities
 {
-    public class CreatorAutheAudit
+    public class ArticleReviewAudit
     {
         public Guid Id { get; set; }
-        /// <summary>
-        /// 用过提交的申请备注
-        /// </summary>
-        public string Remark { get; set; }
-        
         /// <summary>
         /// 审批之后的备注
         /// </summary>
@@ -27,7 +24,7 @@ namespace NewsPublish.Database.Entities.AuditEntities
         /// </summary>
         public bool AuditStatus { get; set; } = false;
         // 外键
-        public Guid UserId { get; set; }
-        public User User { get; set; }
+        public Guid ArticleId { get; set; }
+        public Article Article { get; set; }
     }
 }

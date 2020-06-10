@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using NewsPublish.Database.Entities.ArticleEntities;
 using NewsPublish.Database.Entities.AuditEntities;
@@ -40,6 +41,8 @@ namespace NewsPublish.Database.Data
         
         // 创作者认证报表
         public DbSet<CreatorAutheAudit> CreatorAutheAudits { get; set; }
+        // 文章授权报表
+        public DbSet<ArticleReviewAudit> ArticleReviewAudits { get; set; }
 
         // 配置数据库约束
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -179,7 +182,7 @@ namespace NewsPublish.Database.Data
             modelBuilder.Entity<Banner>()
                 .Property(x => x.Remark).IsRequired().HasMaxLength(1000);
             
-            // 报表表约束
+            // 创作者中心报表表约束
             modelBuilder.Entity<CreatorAutheAudit>()
                 .Property(x => x.Remark).IsRequired();
             modelBuilder.Entity<CreatorAutheAudit>()
@@ -187,10 +190,18 @@ namespace NewsPublish.Database.Data
             modelBuilder.Entity<CreatorAutheAudit>()
                 .Property(x => x.AuditStatus).IsRequired();
             
-            modelBuilder.Entity<CreatorAutheAudit>()
-                .HasOne(s => s.User)
-                .WithMany(x => x.CreatorAutheAudit)
-                .HasForeignKey(x => x.UserId);
+            // 文章审核报表表约束
+            modelBuilder.Entity<ArticleReviewAudit>()
+                .Property(x => x.CreateTime).IsRequired();
+            modelBuilder.Entity<ArticleReviewAudit>()
+                .Property(x => x.IsPass).IsRequired();
+            modelBuilder.Entity<ArticleReviewAudit>()
+                .Property(x => x.AuditStatus).IsRequired();
+            
+            modelBuilder.Entity<ArticleReviewAudit>()
+                .HasOne(s => s.Article)
+                .WithMany(x => x.Audits)
+                .HasForeignKey(x => x.ArticleId);
             
             // 种子数据
             modelBuilder.Entity<Right>().HasData(
@@ -533,6 +544,18 @@ namespace NewsPublish.Database.Data
                 new Article
                 {
                     Id = Guid.Parse("11d67370-955b-4976-9285-834721ca57a5"),
+                    Title = "习近平在宁夏考察时强调 决胜全面建成小康社会决战脱贫攻坚 继续建设经济繁荣民族团结环境优美人民富裕的美丽新宁夏”",
+                    CoverPic = "https://img.ithome.com/newsuploadfiles/2020/5/20200525102542_7599.jpg",
+                    Content = "新华社银川6月10日电 中共中央总书记、国家主席、中央军委主席习近平近日在宁夏考察时强调，要全面落实党中央决策部署，坚持稳中求进工作总基调，坚持新发展理念，落实全国“两会”工作部署，坚决打好三大攻坚战，扎实做好“六稳”工作，全面落实“六保”任务，努力克服新冠肺炎疫情带来的不利影响，优先稳就业保民生，决胜全面建成小康社会，决战脱贫攻坚，继续建设经济繁荣、民族团结、环境优美、人民富裕的美丽新宁夏。",
+                    UserId = Guid.Parse("6fb600c1-9011-4fd7-9234-881379716440"),
+                    CategoryId = Guid.Parse("1c4ec57b-35b4-4b06-971c-02e4fa316a92"),
+                    CreateTime = DateTime.Now,
+                    ModifyTime = DateTime.Now,
+                    States = true
+                },
+                new Article
+                {
+                    Id = Guid.Parse("30c1f151-b97f-46b0-8d1f-e327051b67c8"),
                     Title = "史上最大规模！天猫618今日正式启动”",
                     CoverPic = "https://img.ithome.com/newsuploadfiles/2020/5/20200525102542_7599.jpg",
                     Content = "今天，天猫618正式启动。据天猫官方数据显示，第1小时预售成交额同比增长515 %！",
@@ -554,6 +577,21 @@ namespace NewsPublish.Database.Data
                     ModifyTime = DateTime.Now,
                     States = true
                 });
+            modelBuilder.Entity<ArticleReviewAudit>().HasData(
+                new List<ArticleReviewAudit>
+                {
+                    new ArticleReviewAudit
+                    {
+                        ArticleId = Guid.Parse("11d67370-955b-4976-9285-834721ca57a5"),
+                        AuditStatus = true,
+                        CreateTime = DateTime.Now,
+                        ReviewTime = DateTime.Now,
+                        Id = Guid.Parse("b48c02d8-4a57-4b7c-bb78-4d86c4f4f014"),
+                        IsPass = true,
+                        ReviewRemark = "文章写的不错，通过了！"
+                    }
+                }
+            );
             modelBuilder.Entity<ArticleTag>().HasData(
                 new ArticleTag
                 {

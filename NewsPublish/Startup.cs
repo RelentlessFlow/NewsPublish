@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using NewsPublish.API.ApiAuthorization.ConfigurationModel;
 using NewsPublish.API.ApiAuthorization.Filter;
 using NewsPublish.Database.Data;
+using NewsPublish.Database.Entities.AuditEntities;
 using NewsPublish.Infrastructure.Services;
 using NewsPublish.Infrastructure.Services.AdminServices;
 using NewsPublish.Infrastructure.Services.AdminServices.Implementation;
@@ -115,6 +116,9 @@ namespace NewsPublish
             
             // 管理员服务依赖注入
             services.AddScoped<IUserRepositoryExtendAdmin, UserRepositoryExtendAdmin>();
+            
+            // 文章验证服务注入
+            services.AddScoped<IArticleReviewRepository, ArticleReviewRepository>();
 
 
             // 权限校验

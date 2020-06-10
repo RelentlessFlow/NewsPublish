@@ -44,6 +44,7 @@ namespace NewsPublish.Infrastructure.Services.AssessServices.Implementation
                     UserName = user.NickName,
                     CreateTime = audit.CreateTime
                 });
+            queryExpression = queryExpression.Where(x => x.UserId == parameters.userId);
             
             // 模糊查询，查询用户名称
             if (!string.IsNullOrWhiteSpace(parameters.Q))

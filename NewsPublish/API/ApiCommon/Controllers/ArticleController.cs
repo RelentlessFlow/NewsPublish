@@ -10,8 +10,10 @@ using NewsPublish.API.ApiAdmin.Models.Article;
 using NewsPublish.API.ApiAuthorization.Filter;
 using NewsPublish.API.ApiCommon.Models.Tag;
 using NewsPublish.Database.Entities.ArticleEntities;
+using NewsPublish.Database.Entities.AuditEntities;
 using NewsPublish.Infrastructure.DtoParameters;
 using NewsPublish.Infrastructure.Helpers;
+using NewsPublish.Infrastructure.Services.AssessServices.Interface;
 using NewsPublish.Infrastructure.Services.CommonServices.DTO;
 using NewsPublish.Infrastructure.Services.CommonServices.Interface;
 
@@ -28,13 +30,22 @@ namespace NewsPublish.API.ApiCommon.Controllers
         private readonly ICommentRepository _commentRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IArticleReviewRepository _articleReviewRepository;
 
-        public ArticleController(IArticleRepository repository, IMapper mapper,IWebHostEnvironment environment, ICommentRepository commentRepository, IUserRepository userRepository)
+        public ArticleController(
+            IArticleRepository repository, 
+            IMapper mapper,
+            IWebHostEnvironment environment, 
+            ICommentRepository commentRepository, 
+            IUserRepository userRepository,
+            IArticleReviewRepository articleReviewRepository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _commentRepository = commentRepository ?? throw new ArgumentException(nameof(commentRepository));
             _userRepository = userRepository;
+            _articleReviewRepository =
+                articleReviewRepository ?? throw new ArgumentException(nameof(articleReviewRepository));
         }
         
         /// <summary>
@@ -196,10 +207,22 @@ namespace NewsPublish.API.ApiCommon.Controllers
             
             var addToDto = _mapper.Map<Article>(article);
             _repository.AddArticle(article.CategoryId,article.UserId,addToDto);
+
+            var articleReviewAuditAddToEntity = new ArticleReviewAudit
+            {
+                ArticleId = addToDto.Id,
+                AuditStatus = false,
+                CreateTime = DateTime.Now
+            };
+            ;
+            _articleReviewRepository.AddArticleReviewAudits(articleReviewAuditAddToEntity);
             
             var dtoToReturn = _mapper.Map<ArticleDto>(addToDto);
             await _repository.SaveAsync();
-            return CreatedAtRoute(nameof(GetArticle), new {articleId = addToDto.Id}, dtoToReturn);
+            return CreatedAtRoute(nameof(GetArticle), new {articleId = addToDto.Id}, new
+            {
+                dtoToReturn,articleReviewAuditAddToEntity
+            });
         }
         
         /// <summary>
