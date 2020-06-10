@@ -21,7 +21,6 @@ namespace NewsPublish.API.ApiCommon.Controllers
     [ServiceFilter(typeof(AutheFilter))]
     [ApiController]
     [Route("api/article/{articleId}/comment")]
-    [Route("api_site/article/{articleId}/comment")]
     public class CommentsController : ControllerBase
     {
         private readonly IMapper _mapper;

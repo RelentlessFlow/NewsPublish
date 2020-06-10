@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
@@ -28,12 +30,13 @@ namespace NewsPublish.API.ApiCommon.Controllers
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _environment;
 
-        public ArticleController(IArticleRepository repository, IMapper mapper,IWebHostEnvironment environment, ICommentRepository commentRepository)
+        public ArticleController(IArticleRepository repository, IMapper mapper,IWebHostEnvironment environment, ICommentRepository commentRepository, IUserRepository userRepository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _environment = environment ?? throw new ArgumentNullException(nameof(environment));
             _commentRepository = commentRepository ?? throw new ArgumentException(nameof(commentRepository));
+            _userRepository = userRepository;
         }
         
         /// <summary>
@@ -43,7 +46,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <returns>文章列表</returns>
         [HttpGet]
         [Route("/api_site/article")]
-        public async Task<ActionResult<ArticleListDto>> GetAllArticleList([FromQuery] ArticleDtoParameters parameters)
+        public async Task<ActionResult<PagedList<ArticleListDto>>> GetAllArticleList([FromQuery] ArticleDtoParameters parameters)
         {
             var articleListData = await this.GetArticleListData(parameters);
             return articleListData;
@@ -102,7 +105,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         [Route("/api_assessor/article")]
         [ServiceFilter(typeof(AutheFilter))]
         [ServiceFilter(typeof(AssessorFilter))]
-        public async Task<ActionResult<ArticleListDto>> GetArticleList([FromQuery] ArticleDtoParameters parameters)
+        public async Task<ActionResult<PagedList<ArticleListDto>>> GetArticleList([FromQuery] ArticleDtoParameters parameters)
         {
             var articleListData = await GetArticleListData(parameters, true);
             return articleListData;
@@ -113,6 +116,8 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// </summary>
         /// <param name="articleId">文章ID</param>
         /// <returns></returns>
+        [ServiceFilter(typeof(AutheFilter))]
+        [ServiceFilter(typeof(AssessorFilter))]
         [HttpPut]
         [Route("/api_assessor/article/{article}/state")]
         public async Task<ActionResult<bool>> ChangeArticleState(Guid articleId)
@@ -140,7 +145,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         [ServiceFilter(typeof(CreatorFilter))]
         [HttpGet]
         [Route("/api_creator/articleFailed")]
-        public async Task<ActionResult<ArticleListDto>> GetArticleListByCreator(Guid userId,[FromQuery] ArticleDtoParameters parameters)
+        public async Task<ActionResult<PagedList<ArticleListDto>>> GetArticleListByCreator(Guid userId,[FromQuery] ArticleDtoParameters parameters)
         {
             if (!await _userRepository.UserIsExists(userId))
             {
@@ -286,7 +291,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="parameters"></param>
         /// <param name="getDisabledArticle"></param>
         /// <returns></returns>
-        private async Task<ActionResult<ArticleListDto>> GetArticleListData(ArticleDtoParameters parameters, bool getDisabledArticle = false)
+        private async Task<ActionResult<PagedList<ArticleListDto>>> GetArticleListData(ArticleDtoParameters parameters, bool getDisabledArticle = false)
         {
             var articles = await _repository.GetArticles(parameters,getDisabledArticle);
             foreach (var article in articles)
@@ -308,6 +313,30 @@ namespace NewsPublish.API.ApiCommon.Controllers
                     article.Star = star.Count;
                 }
             }
+            
+            var previousPageLink = articles.HasNext
+                ? CreateArticleResourceUri(parameters, ResourceUriType.PreviousPage)
+                : null;
+
+            var nextPageLink = articles.HasNext
+                ? CreateArticleResourceUri(parameters, ResourceUriType.NextPage)
+                : null;
+
+            var paginationMetadata = new
+            {
+                totalCount = articles.TotalCount,
+                pageSize = articles.PageSize,
+                currentPage = articles.CurrentPage,
+                totalPages = articles.TotalPages,
+                previousPageLink,
+                nextPageLink
+            };
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata,
+                new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                }));
             return Ok(articles);
         }
 
