@@ -20,7 +20,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
     /// </summary>
     [ServiceFilter(typeof(AutheFilter))]
     [ApiController]
-    [Route("api_admin/article/{articleId}/comment")]
+    [Route("api/article/{articleId}/comment")]
     [Route("api_site/article/{articleId}/comment")]
     public class CommentsController : ControllerBase
     {
