@@ -67,7 +67,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="articleId">文章ID</param>
         /// <returns>文章详细内容</returns>
         [HttpGet]
-        [Route("/api_site/{articleId}")]
+        [Route("/api_site/article/{articleId}")]
         public async Task<ActionResult<ArticleDetailDto>> GetArticle(Guid articleId)
         {
             var articles = await _repository.GetArticleDetail(articleId);
@@ -305,7 +305,25 @@ namespace NewsPublish.API.ApiCommon.Controllers
                     });
             }
         }
+        [ServiceFilter(typeof(AdminFilter))]
+        [Route("/api/article/{articleId}/state")]
+        [HttpPut]
+        public async Task<IActionResult> ChangeArticleStateByAdmin(Guid articleId)
+        {
+            var article = await _repository.GetArticle(articleId);
+            if (article == null)
+            {
+                return NotFound();
+            }
+
+            var flag = !article.States;
+            article.States = flag;
+            await _repository.SaveAsync();
+            return NoContent();
+        }
         
+        
+
         /// <summary>
         /// 通用查询文章方法
         /// </summary>

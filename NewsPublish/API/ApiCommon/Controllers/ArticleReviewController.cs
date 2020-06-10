@@ -104,7 +104,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{auditId}")]
-        // [ServiceFilter(typeof(AssessorFilter))]
+        [ServiceFilter(typeof(AssessorFilter))]
         public async Task<ActionResult<CreatorAutheAuditsDto>> GetCreatorAutheAudit(Guid auditId)
         {
             var articleReviewAudit  = await _articleReviewRepository.GetArticleReviewAudit(auditId);
@@ -122,7 +122,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <returns></returns>
         [Route("/api_user/articleReview/{auditId}")]
         [HttpGet]
-        // [ServiceFilter(typeof(UserFilter))]
+        [ServiceFilter(typeof(UserFilter))]
         public async Task<ActionResult<CreatorAutheAuditsDto>> GetCreatorAutheAuditByUserId(Guid auditId)
         {
             var articleReviewAudit  = await _articleReviewRepository.GetArticleReviewAudit(auditId);
@@ -139,7 +139,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="auditId"></param>
         /// <param name="editStateDto"></param>
         /// <returns></returns>
-        // [ServiceFilter(typeof(AssessorFilter))]
+        [ServiceFilter(typeof(AssessorFilter))]
         [HttpPut]
         [Route("{auditId}")]
         public async Task<ActionResult<ArticleReviewAudit>> ChangeCreatorAutheAuditState(Guid auditId,ArticleReviewEditStateDto editStateDto)
