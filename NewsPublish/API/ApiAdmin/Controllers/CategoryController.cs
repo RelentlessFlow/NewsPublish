@@ -19,8 +19,8 @@ namespace NewsPublish.API.ApiAdmin.Controllers
     /// 文章分类CURD
     /// 过滤器：管理员、授权用户
     /// </summary>
-    [ServiceFilter(typeof(AutheFilter))]
-    [ServiceFilter(typeof(AdminFilter))]
+    // [ServiceFilter(typeof(AutheFilter))]
+    // [ServiceFilter(typeof(AdminFilter))]
     [ApiController]
     [Route("api/categories")]
     public class CategoryController : ControllerBase
@@ -52,8 +52,12 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         [HttpGet("{categoryId}", Name = nameof(GetCategory))]
         public async Task<ActionResult<Category>> GetCategory(Guid categoryId)
         {
-            
-            return Ok(_mapper.Map<CategoryDto>(await _repository.GetCategory(categoryId)) );
+            var categoryEntity = await _repository.GetCategory(categoryId);
+            if (categoryEntity == null)
+            {
+                return NotFound();
+            }
+            return Ok(_mapper.Map<CategoryDto>(categoryEntity));
         }
         
         /// <summary>
@@ -86,6 +90,7 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         {
             Category entities = await _repository.GetCategory(categoryId);
             _repository.DeleteCategory(entities);
+            await _repository.SaveAsync();
             return NoContent();
         }
         
