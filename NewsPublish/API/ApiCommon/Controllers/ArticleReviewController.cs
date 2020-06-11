@@ -22,7 +22,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
     /// <summary>
     /// 创作者认证控制器 过滤器：认证用户
     /// </summary>
-    // [ServiceFilter(typeof(AutheFilter))]
+    [ServiceFilter(typeof(AutheFilter))]
     [Route("api_assessor/articleReview")]
     public class ArticleReviewController : ControllerBase
     {    
@@ -45,7 +45,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpGet]
-        // [ServiceFilter(typeof(AssessorFilter))]
+        [ServiceFilter(typeof(AssessorFilter))]
         public async Task<ActionResult<IEnumerable<CreatorAutheAuditsDto>>> GetCreatorAutheAuditsList([FromQuery] ArticleReviewAuditDtoParameters parameters)
         {
             var articleReviewAudit = await _articleReviewRepository.GetAllArticleReviewAudit(parameters);
@@ -104,7 +104,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{auditId}")]
-        // [ServiceFilter(typeof(AssessorFilter))]
+        [ServiceFilter(typeof(AssessorFilter))]
         public async Task<ActionResult<CreatorAutheAuditsDto>> GetCreatorAutheAudit(Guid auditId)
         {
             var articleReviewAudit  = await _articleReviewRepository.GetArticleReviewAudit(auditId);
@@ -165,6 +165,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
 
         [HttpDelete]
         [Route("{auditId}")]
+        [ServiceFilter(typeof(AssessorFilter))]
         public async Task<IActionResult> DeleteAutheAudit(Guid auditId)
         {
             var auditEntity  = await _articleReviewRepository.GetArticleReviewAuditEntity(auditId);
