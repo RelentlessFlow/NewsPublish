@@ -191,6 +191,13 @@ namespace NewsPublish.Infrastructure.Services.AssessServices.Implementation
             return await _context.ArticleReviewAudits.FirstOrDefaultAsync(x => x.Id == auditId);
         }
 
+        public void DeleteArticleReviewAuditEntity(ArticleReviewAudit audit)
+        {
+            MyTools.ArgumentDispose(audit);
+            _context.Remove(audit);
+        }
+
+
         public async Task<bool> SaveAsync()
         {
             return await _context.SaveChangesAsync() >= 0;

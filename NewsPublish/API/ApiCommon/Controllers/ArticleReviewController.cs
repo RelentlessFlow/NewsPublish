@@ -104,7 +104,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("{auditId}")]
-        [ServiceFilter(typeof(AssessorFilter))]
+        // [ServiceFilter(typeof(AssessorFilter))]
         public async Task<ActionResult<CreatorAutheAuditsDto>> GetCreatorAutheAudit(Guid auditId)
         {
             var articleReviewAudit  = await _articleReviewRepository.GetArticleReviewAudit(auditId);
@@ -160,6 +160,16 @@ namespace NewsPublish.API.ApiCommon.Controllers
             auditEntity.ReviewTime = DateTime.Now;
             auditEntity.ReviewTime = DateTime.Now;
             await _articleReviewRepository.SaveAsync();
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("{auditId}")]
+        public async Task<IActionResult> DeleteAutheAudit(Guid auditId)
+        {
+            var auditEntity  = await _articleReviewRepository.GetArticleReviewAuditEntity(auditId);
+            _articleReviewRepository.DeleteArticleReviewAuditEntity(auditEntity);
+             await _articleRepository.SaveAsync();
             return NoContent();
         }
 

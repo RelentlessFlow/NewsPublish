@@ -13,6 +13,7 @@ namespace NewsPublish.Infrastructure.Services.AssessServices.Interface
         Task<PagedList<ArticleReviewAuditsDto>> GetAllArticleReviewAudit(ArticleReviewAuditDtoParameters parameters);
         Task<ArticleReviewAuditsDto> GetArticleReviewAudit(Guid auditId);
         Task<ArticleReviewAudit> GetArticleReviewAuditEntity(Guid auditId);
+        void DeleteArticleReviewAuditEntity(ArticleReviewAudit audit);
         Task<bool> SaveAsync();
     }
 }
