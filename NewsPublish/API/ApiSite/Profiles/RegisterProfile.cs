@@ -17,10 +17,30 @@ namespace NewsPublish.API.ApiSite.Profiles
                     dest
                         => dest.Credential,
                     opt
-                        => opt.MapFrom(src => src.Password));
+                        => opt.MapFrom(src => src.Password))
+                .ForMember(
+                    dest
+                        => dest.Account,
+                    opt
+                        => opt.MapFrom(src => src.Account))
+                .ForMember(
+                    dest
+                        => dest.AuthType,
+                    opt
+                        => opt.MapFrom(src => src.AuthType));
 
-            CreateMap<RegisterDto, User>();
-            
+
+            CreateMap<RegisterDto, User>()
+                .ForMember(
+                    dest
+                        => dest.NickName,
+                    opt
+                        => opt.MapFrom(src => src.NickName))
+                .ForMember(
+                    dest
+                        => dest.Introduce,
+                    opt
+                        => opt.MapFrom(src => src.Introduce));
         }
     }
 }

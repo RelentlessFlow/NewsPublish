@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +47,8 @@ namespace NewsPublish.API.ApiSite.Controllers
             }
             
             var addToUser = _mapper.Map<User>(registerDto);
+            var userRole = await _repository.GetRole("用户");
+            addToUser.RoleId = userRole.Id;
             // 设置默认的头像
             addToUser.Avatar = $"https://{Request.Host.Value}/default/avatar.jpeg";
             var addToAuthe = _mapper.Map<UserAuthe>(registerDto);
@@ -63,7 +66,7 @@ namespace NewsPublish.API.ApiSite.Controllers
                 Password = addToAuthe.Credential,
                 RegisterTime = addToAuthe.RegisterTime
             };
-            return dto;
+            return Ok();
         }
         
         /// <summary>

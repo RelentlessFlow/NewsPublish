@@ -23,8 +23,8 @@ namespace NewsPublish
                 try
                 {
                     var dbContext = scope.ServiceProvider.GetService<RoutineDbContext>();
-                    dbContext.Database.EnsureDeleted();
-                    dbContext.Database.Migrate();
+                    // dbContext.Database.EnsureDeleted();
+                    // dbContext.Database.Migrate();
                 }
                 catch (Exception e)
                 {
