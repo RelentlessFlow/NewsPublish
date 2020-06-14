@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/green/RiderProjects/NewsPublish2/NewsPublish/NewsPublish.csproj": {}
+    "/Users/green/RiderProjects/NewsPublish/NewsPublish/NewsPublish.csproj": {}
   },
   "projects": {
-    "/Users/green/RiderProjects/NewsPublish2/NewsPublish/NewsPublish.csproj": {
+    "/Users/green/RiderProjects/NewsPublish/NewsPublish/NewsPublish.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/green/RiderProjects/NewsPublish2/NewsPublish/NewsPublish.csproj",
+        "projectUniqueName": "/Users/green/RiderProjects/NewsPublish/NewsPublish/NewsPublish.csproj",
         "projectName": "NewsPublish",
-        "projectPath": "/Users/green/RiderProjects/NewsPublish2/NewsPublish/NewsPublish.csproj",
+        "projectPath": "/Users/green/RiderProjects/NewsPublish/NewsPublish/NewsPublish.csproj",
         "packagesPath": "/Users/green/.nuget/packages/",
-        "outputPath": "/Users/green/RiderProjects/NewsPublish2/NewsPublish/obj/",
+        "outputPath": "/Users/green/RiderProjects/NewsPublish/NewsPublish/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

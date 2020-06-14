@@ -272,39 +272,6 @@ namespace NewsPublish.API.ApiCommon.Controllers
             return NoContent();
         }
         
-
-        private string CreateArticleResourceUri(ArticleDtoParameters parameters, ResourceUriType type)
-        {
-            switch (type)
-            {
-                case ResourceUriType.PreviousPage:
-                    return Url.Link(nameof(GetArticle), new
-                    {
-                        orderBy = parameters.OrderBy,
-                        pageNumber = parameters.PageNumber - 1,
-                        pageSize = parameters.PageSize,
-                        searchTerm = parameters.Q
-                    });
-
-                case ResourceUriType.NextPage:
-                    return Url.Link(nameof(GetArticle), new
-                    {
-                        orderBy = parameters.OrderBy,
-                        pageNumber = parameters.PageNumber + 1,
-                        pageSize = parameters.PageSize,
-                        searchTerm = parameters.Q
-                    });
-
-                default:
-                    return Url.Link(nameof(GetArticle), new
-                    {
-                        orderBy = parameters.OrderBy,
-                        pageNumber = parameters.PageNumber,
-                        pageSize = parameters.PageSize,
-                        searchTerm = parameters.Q
-                    });
-            }
-        }
         [ServiceFilter(typeof(AdminFilter))]
         [Route("/api/article/{articleId}/state")]
         [HttpPut]
@@ -334,22 +301,12 @@ namespace NewsPublish.API.ApiCommon.Controllers
         {
             var articles = await _repository.GetArticles(parameters,getDisabledArticle);
 
-            var previousPageLink = articles.HasNext
-                ? CreateArticleResourceUri(parameters, ResourceUriType.PreviousPage)
-                : null;
-
-            var nextPageLink = articles.HasNext
-                ? CreateArticleResourceUri(parameters, ResourceUriType.NextPage)
-                : null;
-
             var paginationMetadata = new
             {
                 totalCount = articles.TotalCount,
                 pageSize = articles.PageSize,
                 currentPage = articles.CurrentPage,
                 totalPages = articles.TotalPages,
-                previousPageLink,
-                nextPageLink
             };
 
             Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata,
