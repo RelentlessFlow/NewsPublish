@@ -34,6 +34,7 @@ namespace NewsPublish.Infrastructure.Services.AssessServices.Implementation
             var queryExpression = _context.CreatorAutheAudits.Join(_context.Users, audit => audit.UserId, user => user.Id,
                 (audit, user) => new CreatorAutheAuditsDto
                 {
+                    
                     AuditStatus =  audit.AuditStatus,
                     Avatar = user.Avatar,
                     CreatorAutheAuditId = audit.Id,
@@ -44,7 +45,10 @@ namespace NewsPublish.Infrastructure.Services.AssessServices.Implementation
                     UserName = user.NickName,
                     CreateTime = audit.CreateTime
                 });
-            queryExpression = queryExpression.Where(x => x.UserId == parameters.userId);
+            if (parameters.userId != Guid.Empty)
+            { 
+                queryExpression = queryExpression.Where(x => x.UserId == parameters.userId);
+            }
             
             // 模糊查询，查询用户名称
             if (!string.IsNullOrWhiteSpace(parameters.Q))
@@ -54,8 +58,7 @@ namespace NewsPublish.Infrastructure.Services.AssessServices.Implementation
             }
             if (!string.IsNullOrWhiteSpace(parameters.OrderBy))
             {
-                if (parameters.OrderBy == "CreateTime") queryExpression = queryExpression.OrderBy(x => x);
-                if (parameters.OrderBy == "Title") queryExpression = queryExpression.OrderBy(x => x.CreateTime);
+                if (parameters.OrderBy == "CreateTime") queryExpression = queryExpression.OrderBy(x => x.CreateTime);
                 if (parameters.OrderBy == "IsPass") queryExpression = queryExpression.OrderBy(x => x.IsPass);
                 if (parameters.OrderBy == "AuditStatus") queryExpression = queryExpression.OrderBy(x => x.AuditStatus);
                 if (parameters.OrderBy == "UserName") queryExpression = queryExpression.OrderBy(x => x.UserName);

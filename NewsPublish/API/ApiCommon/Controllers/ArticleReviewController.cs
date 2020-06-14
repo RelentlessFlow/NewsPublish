@@ -20,7 +20,7 @@ using NewsPublish.Infrastructure.Services.CommonServices.Interface;
 namespace NewsPublish.API.ApiCommon.Controllers
 {
     /// <summary>
-    /// 创作者认证控制器 过滤器：认证用户
+    /// 文章认证控制器 过滤器：认证用户
     /// </summary>
     [ServiceFilter(typeof(AutheFilter))]
     [Route("api_assessor/articleReview")]

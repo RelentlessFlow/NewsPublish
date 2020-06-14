@@ -38,34 +38,42 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="addDto"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("api_user/creatorAuthe")]
+        [Route("/api_user/creatorAuthe")]
         [ServiceFilter(typeof(UserFilter))]
-        public async Task<IActionResult> CreateCreatorAutheAudit(CreatorAutheAuditAddDto addDto)
+        public async Task<ActionResult<CreatorAutheAuditsDto>> RegisterUser(Guid userId,string remark)
         {
-            if (!await _userRepository.UserIsExists(addDto.UserId))
+            if (userId==Guid.Empty||remark==null||remark=="")
+            {
+                return ValidationProblem("参数传递异常");
+                if (remark.Length<=6)
+                {
+                    return ValidationProblem("备注长度最低为6");
+                }
+            }
+            if (!await _userRepository.UserIsExists(userId))
             {
                 return NotFound();
             }
         
             var addToEntity = new CreatorAutheAudit
             {
-                Remark = addDto.Remark,
-                UserId = addDto.UserId
+                Remark = remark,
+                UserId = userId
             };
             _auditsRepository.AddCreatorAutheAudits(addToEntity);
-            return CreatedAtRoute((nameof(GetCreatorAutheAudit)),new {userId = addToEntity.UserId},addToEntity);
+            await _auditsRepository.SaveAsync();
+            return CreatedAtRoute((nameof(GetCreatorAutheAudit)),new {auditId = addToEntity.Id},addToEntity);
         }
         
         /// <summary>
         /// 获取所有的创作者认证报表（分页） 过滤器：审查员
         /// </summary>
-        /// <param name="articleId"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpGet]
         [ServiceFilter(typeof(AssessorFilter))]
         public async Task<ActionResult<IEnumerable<CreatorAutheAuditsDto>>> GetCreatorAutheAuditsList(
-            Guid articleId, [FromQuery] CreatorAutheAuditsDtoParameters parameters)
+            [FromQuery] CreatorAutheAuditsDtoParameters parameters)
         {
             var comment = await _auditsRepository.GetAllCreatorAutheAudits(parameters);
             
@@ -102,7 +110,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="auditId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("/api_assessor/creatorAuthe/{auditId}")]
+        [Route("/api_assessor/creatorAuthe/{auditId}",Name = nameof(GetCreatorAutheAudit))]
         [ServiceFilter(typeof(AssessorFilter))]
         public async Task<ActionResult<CreatorAutheAuditsDto>> GetCreatorAutheAudit(Guid auditId)
         {
@@ -120,7 +128,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="auditId"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("{userId}", Name = nameof(GetCreatorAutheAuditByUserId))]
+        [Route("/api_user/creatorAuthe/{userId}")]
         [ServiceFilter(typeof(UserFilter))]
         public async Task<ActionResult<CreatorAutheAuditsDto>> GetCreatorAutheAuditByUserId(Guid userId)
         {
@@ -136,7 +144,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         }
         
         /// <summary>
-        /// 审核文章
+        /// 获取认证状态
         /// </summary>
         /// <param name="auditId"></param>
         /// <param name="editStateDto"></param>
@@ -155,14 +163,11 @@ namespace NewsPublish.API.ApiCommon.Controllers
             if (auditEntity.IsPass)
             {
                 var user = await _userRepository.GetUser(auditEntity.UserId);
-                var role = await _userRepository.GetRole(editStateDto.RoleId);
-                if (role == null)
-                {
-                    return NotFound("未找到对应的角色信息");
-                }
-            
-                user.RoleId = editStateDto.RoleId;
+                var role = await _userRepository.GetRole("自媒体");
+                user.RoleId = role.Id;
             }
+
+            auditEntity.AuditStatus = true; 
             auditEntity.ReviewRemark = editStateDto.ReviewRemark;
             auditEntity.ReviewTime = DateTime.Now;
             await _auditsRepository.SaveAsync();
