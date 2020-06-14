@@ -333,26 +333,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         private async Task<ActionResult<IEnumerable<ArticleListDto>>> GetArticleListData(ArticleDtoParameters parameters, bool getDisabledArticle = false)
         {
             var articles = await _repository.GetArticles(parameters,getDisabledArticle);
-            foreach (var article in articles)
-            {
-                var tag = await _repository.GetArticleAllTags(article.ArticleId);
-                IEnumerable<TagDto> tags = _mapper.Map<IEnumerable<TagDto>>(tag);
-                article.Tags = tags as List<TagDto>;
-            }
-            
-            foreach (var article in articles)
-            {
-                var star = await _repository.GetArticleStar(article.ArticleId);
-                if (star == null)
-                {
-                    article.Star = 0;
-                }
-                else
-                {
-                    article.Star = star.Count;
-                }
-            }
-            
+
             var previousPageLink = articles.HasNext
                 ? CreateArticleResourceUri(parameters, ResourceUriType.PreviousPage)
                 : null;

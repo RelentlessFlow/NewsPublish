@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NewsPublish.API.ApiCommon.Models.Tag;
 using NewsPublish.Database.Data;
 using NewsPublish.Database.Entities.ArticleEntities;
 using NewsPublish.Infrastructure.DtoParameters;
@@ -15,10 +18,12 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
     public class ArticleRepository : IArticleRepository
     {
         private readonly RoutineDbContext _context;
-
-        public ArticleRepository(RoutineDbContext context)
+        private readonly IMapper _mapper;
+        
+        public ArticleRepository(RoutineDbContext context,IMapper mapper)
         {
             _context = context ?? throw new ArgumentException(nameof(context));
+            _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
         }
 
         public void AddCategory(Category category)
@@ -151,20 +156,45 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
                 queryExpression = queryExpression
                     .Where(x => x.State == parameters.isPass);
             }
-
+            
             // 排序
             if (!string.IsNullOrWhiteSpace(parameters.OrderBy))
             {
-                if (parameters.OrderBy == "CreateTime") queryExpression = queryExpression.OrderBy(x => x.CreateTime);
-                if (parameters.OrderBy == "ModifyTime") queryExpression = queryExpression.OrderBy(x => x.ModifyTime);
+                if (parameters.OrderBy == "CreateTime") queryExpression = queryExpression.OrderByDescending(x => x.CreateTime);
+                if (parameters.OrderBy == "ModifyTime") queryExpression = queryExpression.OrderByDescending(x => x.ModifyTime);
                 if (parameters.OrderBy == "Title") queryExpression = queryExpression.OrderBy(x => x.AticleTitle);
                 if (parameters.OrderBy == "UserName") queryExpression = queryExpression.OrderBy(x => x.UserName);
                 if (parameters.OrderBy == "CategoryName")
                     queryExpression = queryExpression.OrderBy(x => x.CategoryName);
             }
-
-            return await PagedList<ArticleListDto>
+            
+            
+            var returnDto = await PagedList<ArticleListDto>
                 .CreateAsync(queryExpression, parameters.PageNumber, parameters.PageSize);
+            
+            
+            // 返回回来其余的相关数据
+            foreach (var article in returnDto)
+            {
+                var tag = await GetArticleAllTags(article.ArticleId);
+                IEnumerable<TagDto> tags = _mapper.Map<IEnumerable<TagDto>>(tag);
+                article.Tags = tags as List<TagDto>;
+            }
+            
+            foreach (var article in returnDto)
+            {
+                var star = await GetArticleStar(article.ArticleId);
+                if (star == null)
+                {
+                    article.Star = 0;
+                }
+                else
+                {
+                    article.Star = star.Count;
+                }
+            }
+            
+            return returnDto;
         }
 
 
