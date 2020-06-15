@@ -124,10 +124,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
             {
                 return ValidationProblem("file为必填字段,上传文件为空");
             }
-            var userEntity = await _userRepository.GetUser(userId);
-            var webFile = MyTools.CreateWebFile(Request, formCollection, _environment, $"file_user/{userEntity.Id}");
-            userEntity.Avatar = webFile.Url;
-            await _userRepository.SaveAsync();
+            var webFile = MyTools.CreateWebFile(Request, formCollection, _environment, $"file_user/{userId}");
             Response.Headers["picUrl"] = webFile.Url;
             return Ok(new
             {
