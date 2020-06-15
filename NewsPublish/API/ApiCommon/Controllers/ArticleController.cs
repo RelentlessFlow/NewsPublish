@@ -67,7 +67,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="articleId">文章ID</param>
         /// <returns>文章详细内容</returns>
         [HttpGet]
-        [Route("/api_site/article/{articleId},",Name = nameof(GetArticle))]
+        [Route("/api_site/article/{articleId}",Name = nameof(GetArticle))]
         public async Task<ActionResult<ArticleDetailDto>> GetArticle(Guid articleId)
         {
             var articles = await _repository.GetArticleDetail(articleId);
