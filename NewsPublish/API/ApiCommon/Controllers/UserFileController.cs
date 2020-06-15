@@ -89,7 +89,6 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="userId"></param>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        [ServiceFilter(typeof(AdminFilter))]
         [HttpDelete("{fileName}")]
         public ActionResult<bool> DeleteUserFile(Guid userId,string fileName)
         {

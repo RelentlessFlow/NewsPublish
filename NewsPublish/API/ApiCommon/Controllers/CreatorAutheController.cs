@@ -45,10 +45,11 @@ namespace NewsPublish.API.ApiCommon.Controllers
             if (userId==Guid.Empty||remark==null||remark=="")
             {
                 return ValidationProblem("参数传递异常");
-                if (remark.Length<=6)
-                {
-                    return ValidationProblem("备注长度最低为6");
-                }
+                
+            }
+            if (remark.Length<=6)
+            {
+                return ValidationProblem("备注长度最低为6");
             }
             if (!await _userRepository.UserIsExists(userId))
             {
