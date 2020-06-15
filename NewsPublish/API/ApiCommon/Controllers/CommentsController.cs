@@ -26,12 +26,17 @@ namespace NewsPublish.API.ApiCommon.Controllers
         private readonly IMapper _mapper;
         private readonly ICommentRepository _commentRepository;
         private readonly IArticleRepository _articleRepository;
+        private readonly IUserRepository _userRepository;
 
-        public CommentsController(IMapper mapper, ICommentRepository repository, IArticleRepository articleRepository)
+        public CommentsController(
+            IMapper mapper, ICommentRepository repository, 
+            IArticleRepository articleRepository,
+            IUserRepository userRepository)
         {
             _mapper = mapper ?? throw new ArgumentException(nameof(mapper));
             _commentRepository = repository ?? throw new ArgumentException(nameof(repository));
             _articleRepository = articleRepository ?? throw new ArgumentException(nameof(articleRepository));
+            _userRepository = userRepository ?? throw new ArgumentException(nameof(userRepository));
         }
         
         /// <summary>
@@ -85,13 +90,6 @@ namespace NewsPublish.API.ApiCommon.Controllers
             return commentEntity;
         }
         
-        /// <summary>
-        /// 新建评论
-        /// 过滤器：用户
-        /// </summary>
-        /// <param name="articleId"></param>
-        /// <param name="comment">新建评论的DTO</param>
-        /// <returns>新建评论的路由地址</returns>
         [ServiceFilter(typeof(UserFilter))]
         [HttpPost]
         public async Task<IActionResult> CreateComment(Guid articleId, CommentAddDto comment)
@@ -101,9 +99,16 @@ namespace NewsPublish.API.ApiCommon.Controllers
                 return NotFound();
             }
 
+            if (!await _userRepository.UserIsExists(comment.UserId))
+            {
+                return NotFound();
+            }
+
             var addToEntity = _mapper.Map<Comment>(comment);
             _commentRepository.AddComments(articleId, addToEntity);
-            return CreatedAtRoute(nameof(GetComment), new {commentId = addToEntity.Id}, addToEntity);
+            await _commentRepository.SaveAsync();
+            return Ok();
+            // return CreatedAtRoute(nameof(GetComment), new {commentId = addToEntity.Id}, addToEntity);
         }
 
         /// <summary>

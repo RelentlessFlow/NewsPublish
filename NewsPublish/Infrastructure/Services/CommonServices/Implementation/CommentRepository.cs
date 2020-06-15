@@ -26,7 +26,8 @@ namespace NewsPublish.Infrastructure.Services.CommonServices.Implementation
             MyTools.ArgumentDispose(articleId);
             MyTools.ArgumentDispose(comment);
             comment.ArticleId = articleId;
-            await _context.AddAsync(articleId);
+            comment.CreateTime = DateTime.Now;
+            await _context.Comments.AddAsync(comment);
         }
 
         public void UpdateComment(Comment comment)
