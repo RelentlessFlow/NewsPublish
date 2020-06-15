@@ -19,7 +19,6 @@ namespace NewsPublish.API.ApiAdmin.Controllers
     /// 过滤器：管理员、授权用户
     /// </summary>
     [ServiceFilter(typeof(AutheFilter))]
-    [ServiceFilter(typeof(AdminFilter))]
     [ApiController]
     [Route("api/article/{articleId}/tag")]
     public class ArticleTagController : ControllerBase
@@ -38,6 +37,7 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         /// </summary>
         /// <param name="articleId">文章ID</param>
         /// <returns>文章的所有标签</returns>
+        [ServiceFilter(typeof(AdminFilter))]
         [HttpGet(Name = nameof(GetArticleTag))]
         public async Task<ActionResult<IEnumerable<Tag>>> GetArticleTag(Guid articleId)
         {
@@ -46,11 +46,14 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         }
         
         /// <summary>
-        /// 通过文章ID添加标签
+        /// 通过文章ID添加标签 给创作者使用的
         /// </summary>
         /// <param name="articleId">文章ID</param>
         /// <param name="list">添加文章标签的DTO</param>
         /// <returns>返回新文章标签的路由信息</returns>
+        [ServiceFilter(typeof(AssessorFilter))]
+        [Route("/api/article/{articleId}/tag")]
+        [Route("/api_creator/article/{articleId}/tag")]
         [HttpPost]
         public async Task<IActionResult> CreateArticleTags(Guid articleId,ArticleTagListAddDto list)
         {
