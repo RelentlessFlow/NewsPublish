@@ -20,7 +20,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
     /// <summary>
     /// 创作者认证控制器
     /// </summary>
-    // [ServiceFilter(typeof(AutheFilter))]
+    [ServiceFilter(typeof(AutheFilter))]
     [Route("api_assessor/creatorAuthe")]
     public class CreatorAutheController : ControllerBase
     {
@@ -39,7 +39,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api_user/creatorAuthe")]
-        // [ServiceFilter(typeof(UserFilter))]
+        [ServiceFilter(typeof(UserFilter))]
         public async Task<ActionResult<CreatorAutheAuditsDto>> RegisterUser([FromBody]CreatorAutheAuditAddDto addDto)
         {
             if (!await _userRepository.UserIsExists(addDto.UserId))
@@ -63,7 +63,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpGet]
-        // [ServiceFilter(typeof(AssessorFilter))]
+        [ServiceFilter(typeof(AssessorFilter))]
         public async Task<ActionResult<IEnumerable<CreatorAutheAuditsDto>>> GetCreatorAutheAuditsList(
             [FromQuery] CreatorAutheAuditsDtoParameters parameters)
         {

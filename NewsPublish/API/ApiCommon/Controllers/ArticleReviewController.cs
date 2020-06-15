@@ -97,6 +97,70 @@ namespace NewsPublish.API.ApiCommon.Controllers
             return Ok(articleReviewAudit);
         }
         
+        
+        /// <summary>
+        /// 通过用户ID获取所有的创作者认证报表（分页） 过滤器：用户
+        /// </summary>
+        /// <param name="articleId"></param>
+        /// <param name="parameters"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/api_creator/articleReview/{userId}")]
+        [ServiceFilter(typeof(CreatorFilter))]
+        public async Task<ActionResult<IEnumerable<CreatorAutheAuditsDto>>> GetCreatorAutheAuditsListByUserId(Guid userId,[FromQuery] ArticleReviewAuditDtoParameters parameters)
+        {
+            parameters.UserId = userId;
+            var articleReviewAudit = await _articleReviewRepository.GetAllArticleReviewAudit(parameters);
+            
+            foreach (var article in articleReviewAudit)
+            {
+                var tag = await _articleRepository.GetArticleAllTags(article.ArticleId);
+                IEnumerable<TagDto> tags = _mapper.Map<IEnumerable<TagDto>>(tag);
+                article.Tags = tags as List<TagDto>;
+            }
+            
+            foreach (var article in articleReviewAudit)
+            {
+                var star = await _articleRepository.GetArticleStar(article.ArticleId);
+                if (star == null)
+                {
+                    article.Star = 0;
+                }
+                else
+                {
+                    article.Star = star.Count;
+                }
+            }
+            
+            var previousPageLink = articleReviewAudit.HasNext
+                ? CreatePageListResourceUri(parameters, ResourceUriType.PreviousPage)
+                : null;
+
+            var nextPageLink = articleReviewAudit.HasNext
+                ? CreatePageListResourceUri(parameters, ResourceUriType.NextPage)
+                : null;
+
+            var paginationMetadata = new
+            {
+                totalCount = articleReviewAudit.TotalCount,
+                pageSize = articleReviewAudit.PageSize,
+                currentPage = articleReviewAudit.CurrentPage,
+                totalPages = articleReviewAudit.TotalPages,
+                previousPageLink,
+                nextPageLink
+            };
+
+            Response.Headers.Add("X-Pagination", JsonSerializer.Serialize(paginationMetadata,
+                new JsonSerializerOptions
+                {
+                    Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                }));
+
+            return Ok(articleReviewAudit);
+        }
+        
+        
         /// <summary>
         /// 根据表单ID 查询单个表单的详细信息 过滤器：审查员
         /// </summary>
