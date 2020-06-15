@@ -51,9 +51,9 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         /// <param name="articleId">文章ID</param>
         /// <param name="list">添加文章标签的DTO</param>
         /// <returns>返回新文章标签的路由信息</returns>
-        [ServiceFilter(typeof(AssessorFilter))]
         [Route("/api/article/{articleId}/tag")]
         [Route("/api_creator/article/{articleId}/tag")]
+        [ServiceFilter(typeof(CreatorFilter))]
         [HttpPost]
         public async Task<IActionResult> CreateArticleTags(Guid articleId,ArticleTagListAddDto list)
         {
