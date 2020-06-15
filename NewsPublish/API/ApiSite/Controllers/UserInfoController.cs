@@ -8,6 +8,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using NewsPublish.API.ApiAuthorization.ConfigurationModel;
+using NewsPublish.API.ApiAuthorization.Filter;
 using NewsPublish.API.ApiSite.Models.User;
 using NewsPublish.Database.Entities.RoleEntities;
 using NewsPublish.Database.Entities.UserEntities;
@@ -22,7 +23,7 @@ namespace NewsPublish.API.ApiSite.Controllers
     /// 过滤器：授权
     /// </summary>
     [ApiController]
-    // [ServiceFilter(typeof(AutheFilter))]
+    [ServiceFilter(typeof(AutheFilter))]
     [Route("api_site/userinfo/{id}")]
     public class UserInfoController : ControllerBase
     {

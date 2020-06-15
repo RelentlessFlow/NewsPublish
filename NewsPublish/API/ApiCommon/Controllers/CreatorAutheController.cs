@@ -39,27 +39,18 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("/api_user/creatorAuthe")]
-        [ServiceFilter(typeof(UserFilter))]
-        public async Task<ActionResult<CreatorAutheAuditsDto>> RegisterUser(Guid userId,string remark)
+        // [ServiceFilter(typeof(UserFilter))]
+        public async Task<ActionResult<CreatorAutheAuditsDto>> RegisterUser([FromBody]CreatorAutheAuditAddDto addDto)
         {
-            if (userId==Guid.Empty||remark==null||remark=="")
-            {
-                return ValidationProblem("参数传递异常");
-                
-            }
-            if (remark.Length<=6)
-            {
-                return ValidationProblem("备注长度最低为6");
-            }
-            if (!await _userRepository.UserIsExists(userId))
+            if (!await _userRepository.UserIsExists(addDto.UserId))
             {
                 return NotFound();
             }
         
             var addToEntity = new CreatorAutheAudit
             {
-                Remark = remark,
-                UserId = userId
+                Remark = addDto.Remark,
+                UserId = addDto.UserId
             };
             _auditsRepository.AddCreatorAutheAudits(addToEntity);
             await _auditsRepository.SaveAsync();
