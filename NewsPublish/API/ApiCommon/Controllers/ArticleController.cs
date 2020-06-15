@@ -67,7 +67,7 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// <param name="articleId">文章ID</param>
         /// <returns>文章详细内容</returns>
         [HttpGet]
-        [Route("/api_site/article/{articleId}")]
+        [Route("/api_site/article/{articleId},",Name = nameof(GetArticle))]
         public async Task<ActionResult<ArticleDetailDto>> GetArticle(Guid articleId)
         {
             var articles = await _repository.GetArticleDetail(articleId);
@@ -194,8 +194,8 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// </summary>
         /// <param name="article">创建文章的DTO</param>
         /// <returns>新建文章的路由地址</returns>
-        [ServiceFilter(typeof(AutheFilter))]
-        [ServiceFilter(typeof(CreatorFilter))]
+        // [ServiceFilter(typeof(AutheFilter))]
+        // [ServiceFilter(typeof(CreatorFilter))]
         [HttpPost]
         [Route("/api_creator/article")]
         public async Task<ActionResult<ArticleDto>> CreateArticle(ArticleAddDto article)
@@ -214,14 +214,17 @@ namespace NewsPublish.API.ApiCommon.Controllers
                 AuditStatus = false,
                 CreateTime = DateTime.Now
             };
-            ;
+            
             _articleReviewRepository.AddArticleReviewAudits(articleReviewAuditAddToEntity);
             
             var dtoToReturn = _mapper.Map<ArticleDto>(addToDto);
             await _repository.SaveAsync();
             return CreatedAtRoute(nameof(GetArticle), new {articleId = addToDto.Id}, new
             {
-                dtoToReturn,articleReviewAuditAddToEntity
+                dtoToReturn,
+                articleReviewAuditAddToEntity.AuditStatus,
+                articleReviewAuditAddToEntity.Id,
+                articleReviewAuditAddToEntity.CreateTime
             });
         }
         
