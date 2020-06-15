@@ -200,10 +200,10 @@ namespace NewsPublish.API.ApiCommon.Controllers
         [Route("/api_creator/article")]
         public async Task<ActionResult<ArticleDto>> CreateArticle(ArticleAddDto article)
         {
-            if (await _repository.ArticleIsExists(article.Title))
-            {
-                return ValidationProblem("新闻已经发表过了！");
-            }
+            // if (await _repository.ArticleIsExists(article.Title))
+            // {
+            //     return ValidationProblem("新闻已经发表过了！");
+            // }
             
             var addToDto = _mapper.Map<Article>(article);
             _repository.AddArticle(article.CategoryId,article.UserId,addToDto);

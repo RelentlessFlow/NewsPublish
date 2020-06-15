@@ -80,10 +80,10 @@ namespace NewsPublish.API.ApiSite.Controllers
                 return NotFound();
             }
 
-            if (await _repository.UserNickNameIsExists(nickName))
-            {
-                return ValidationProblem("昵称已经存在");
-            }
+            // if (await _repository.UserNickNameIsExists(nickName))
+            // {
+            //     return ValidationProblem("昵称已经存在");
+            // }
             
             user.NickName = nickName;
             await _repository.SaveAsync();
