@@ -17,10 +17,8 @@ namespace NewsPublish.API.ApiAdmin.Controllers
 {
     /// <summary>
     /// Banner轮播图CURD
-    /// 过滤器：管理员、授权用户
+    /// 过滤器：CUD 管理 R 直接查
     /// </summary>
-    [ServiceFilter(typeof(AutheFilter))]
-    [ServiceFilter(typeof(AdminFilter))]
     [ApiController]
     [Route("api/banner")]
     public class BannerController : ControllerBase
@@ -48,11 +46,14 @@ namespace NewsPublish.API.ApiAdmin.Controllers
             return Ok(await _webRepository.GetBanners());
         }
             
+        
         /// <summary>
         /// 通过BannerID查询单个Banner详细信息
         /// </summary>
         /// <param name="bannerId"></param>
         /// <returns>一个Banner信息</returns>
+        [ServiceFilter(typeof(AutheFilter))]
+        [ServiceFilter(typeof(AdminFilter))]
         [HttpGet("{bannerId}" , Name = nameof(GetBanner))]
         public async Task<ActionResult<Banner>> GetBanner(Guid bannerId)
         {
@@ -70,6 +71,8 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         /// </summary>
         /// <param name="formCollection">包含文件、Banner名称、Banner备注的FormData文件</param>
         /// <returns>新的Banner的图片URL和操作结果</returns>
+        [ServiceFilter(typeof(AutheFilter))]
+        [ServiceFilter(typeof(AdminFilter))]
         [HttpPost]
         public async Task<ActionResult<Banner>> CreateBanner([FromForm] IFormCollection formCollection)
         {
@@ -111,6 +114,8 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         /// </summary>
         /// <param name="bannerId">Banner的ID</param>
         /// <returns>200状态吗</returns>
+        [ServiceFilter(typeof(AutheFilter))]
+        [ServiceFilter(typeof(AdminFilter))]
         [HttpDelete("{bannerId}")]
         public async Task<ActionResult<Banner>> DeleteBanner(Guid bannerId)
         {
