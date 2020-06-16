@@ -65,7 +65,7 @@ namespace NewsPublish.API.ApiAdmin.Controllers
 
             if (!list.ArticleTags.Any())
             {
-                return ValidationProblem("填写标签为空！");
+                return NoContent();
             }
             List<ArticleTagDto> articleTagDtos = new List<ArticleTagDto>();
             List<TagDto> tagDtos = new List<TagDto>();
@@ -81,7 +81,6 @@ namespace NewsPublish.API.ApiAdmin.Controllers
                     _repository.AddTag(tagEntity);
                     var tagDto = _mapper.Map<TagDto>(tagEntity);
                     tagDtos.Add(tagDto);
-                    
                 }
                 var articleTagToAdd = new ArticleTag()
                 {

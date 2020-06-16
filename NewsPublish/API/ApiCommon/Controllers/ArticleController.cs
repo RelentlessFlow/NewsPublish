@@ -194,8 +194,8 @@ namespace NewsPublish.API.ApiCommon.Controllers
         /// </summary>
         /// <param name="article">创建文章的DTO</param>
         /// <returns>新建文章的路由地址</returns>
-        // [ServiceFilter(typeof(AutheFilter))]
-        // [ServiceFilter(typeof(CreatorFilter))]
+        [ServiceFilter(typeof(AutheFilter))]
+        [ServiceFilter(typeof(CreatorFilter))]
         [HttpPost]
         [Route("/api_creator/article")]
         public async Task<ActionResult<ArticleDto>> CreateArticle(ArticleAddDto article)
@@ -269,8 +269,13 @@ namespace NewsPublish.API.ApiCommon.Controllers
             {
                 return NotFound();
             }
-
-            _mapper.Map(article, entities);
+            
+            entities.Title = article.Title;
+            entities.CoverPic = article.CoverPic;
+            entities.Content = article.Content;
+            entities.Content = article.Content;
+            entities.CategoryId = article.CategoryId;
+            
             await _repository.SaveAsync();
             return NoContent();
         }
