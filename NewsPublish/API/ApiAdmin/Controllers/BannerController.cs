@@ -41,6 +41,8 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         /// </summary>
         /// <returns>全部的Banner信息</returns>
         [HttpGet]
+        [Route("/api/banner")]
+        [Route("/api_site/banner")]
         public async Task<ActionResult<IEnumerable<Banner>>> GetBanners()
         {
             return Ok(await _webRepository.GetBanners());
@@ -52,8 +54,6 @@ namespace NewsPublish.API.ApiAdmin.Controllers
         /// </summary>
         /// <param name="bannerId"></param>
         /// <returns>一个Banner信息</returns>
-        [ServiceFilter(typeof(AutheFilter))]
-        [ServiceFilter(typeof(AdminFilter))]
         [HttpGet("{bannerId}" , Name = nameof(GetBanner))]
         public async Task<ActionResult<Banner>> GetBanner(Guid bannerId)
         {
